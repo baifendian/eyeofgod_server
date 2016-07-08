@@ -1,1 +1,1 @@
-# Eye of God Server
+#  Eye of God - Server
