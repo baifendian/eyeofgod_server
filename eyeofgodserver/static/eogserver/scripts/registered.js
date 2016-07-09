@@ -118,5 +118,5 @@ $('.setting-priority p').on('click', function() {
 });
 
 $('#sureBtn').on('click', function() {
-  window.location.dismiss  =  '?callobjectC&dismiss';
+  window.location.dismiss = '?callobjectC&dismiss';
 });
