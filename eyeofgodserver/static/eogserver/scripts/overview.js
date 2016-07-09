@@ -1,32 +1,51 @@
 
 //假数据
-var myData = {
+var myData2 = {
   "toliet": {
     "status": 1,
-    "location": {
-      "a": 1,
-      "b": 3
+    "detail": {
+      "A": 4,
+      "B": 3
     }
   },
   "restroom": {
-    "status": 0,
-    "location": {
-      "c": 0
+    "status": 1,
+    "detail": {
+      "C": 5
     }
   },
   "shower": {
-    "status": 1,
-    "location": {
-      "d": 3
+    "status": 0,
+    "detail": {
+      "C": 1
     }
   },
-  "eggchaiir": {
-    "status": 0,
-    "location": {
-      "e": 0
+  "eggchair": {
+    "status": 1,
+    "detail": {
+      "D": 15
     }
   }
 }
+
+
+$.ajax({
+  type:"post",
+  url:"http://192.168.1.140:9000/app/state/overview",
+  async:true,
+  success: function(data) {
+    console.log(data);
+  },
+  error: function(data) {
+    console.log(data);
+  }
+});
+
+
+
+
+
+
 
 
 //首页
@@ -47,21 +66,26 @@ $('#slide').swipeSlide({
 //数据展示
 
 //洗手间
-if (myData.toliet.status === 1) {
+if (myData2.toliet.status === 1) {
   $('.app-toilet .resource-status').html('空闲');
   $('.app-toilet .resource-num').css({'display': 'block'});
-  $('.app-toilet .remindme-btn').css({'display': 'none'})
+  $('.app-toilet .remindme-btn').css({'display': 'none'});
+  $('.app-toilet .resource-num p').eq(0).html('A区：'+myData2.toliet.detail.A);
+  $('.app-toilet .resource-num p').eq(1).html('B区：'+myData2.toliet.detail.B);
 } else {
   $('.app-toilet .resource-status').html('占用');
   $('.app-toilet .resource-num').css({'display': 'none'});
   $('.app-toilet .remindme-btn').css({'display': 'block'})
 }
 
+
+
 //休息室
-if (myData.restroom.status === 1) {
+if (myData2.restroom.status === 1) {
   $('.app-lounge .resource-status').html('空闲');
   $('.app-lounge .resource-num').css({'display': 'block'});
-  $('.app-lounge .remindme-btn').css({'display': 'none'})
+  $('.app-lounge .remindme-btn').css({'display': 'none'});
+  $('.app-lounge .resource-num p').eq(0).html('C区：'+myData2.restroom.detail.C);
 } else {
   $('.app-lounge .resource-status').html('占用');
   $('.app-lounge .resource-num').css({'display': 'none'});
@@ -69,10 +93,11 @@ if (myData.restroom.status === 1) {
 }
  
  //淋浴间
- if (myData.shower.status === 1) {
+ if (myData2.shower.status === 1) {
   $('.app-shower .resource-status').html('空闲');
   $('.app-shower .resource-num').css({'display': 'block'});
-  $('.app-shower .remindme-btn').css({'display': 'none'})
+  $('.app-shower .remindme-btn').css({'display': 'none'});
+  $('.app-shower .resource-num p').eq(0).html('C区：'+myData2.shower.detail.C);
 } else {
   $('.app-shower .resource-status').html('占用');
   $('.app-shower .resource-num').css({'display': 'none'});
@@ -80,10 +105,11 @@ if (myData.restroom.status === 1) {
 }
 
 //蛋椅
-if (myData.eggchaiir.status === 1) {
+if (myData2.eggchair.status === 1) {
   $('.app-egg .resource-status').html('空闲');
   $('.app-egg .resource-num').css({'display': 'block'});
-  $('.app-egg .remindme-btn').css({'display': 'none'})
+  $('.app-egg .remindme-btn').css({'display': 'none'});
+  $('.app-egg .resource-num p').eq(0).html('D区：'+myData2.eggchair.detail.D);
 } else {
   $('.app-egg .resource-status').html('占用');
   $('.app-egg .resource-num').css({'display': 'none'});
@@ -99,6 +125,12 @@ $('.app-toilet .app-icon').on('click', function() {
 $('.app-lounge .app-icon').on('click', function() {
   window.location = '?callobjectC&pushViewController&restroom.html';
 });
+
+
+//window.location = '?callobjectC&deviceToken';
+//function getDeviceToken(str) {
+//
+//}
 
 //淋浴间跳转
 $('.app-shower .app-icon').on('click', function() {

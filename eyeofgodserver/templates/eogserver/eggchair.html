@@ -12,19 +12,6 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}eogserver/css/font-awesome.min.css">
     <link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}eogserver/css/main.less" />
     <title></title>
-    <script>
-      let temp = []
-      {% for item in data %}
-          i = {{forloop.counter}}-1
-          temp[i] = {}
-          {% for k,v in item.items %}
-          temp[i]['{{ k }}'] = '{{ v }}'
-          {% endfor %}
-      {% endfor %}
-      window.state_data = temp 
-      
-      console.log(window.state_data)
-    </script>
   </head>
   <body>
     <div class="egg-header">
