@@ -197,7 +197,7 @@ def test(request):
         } )
 
     obj = {'data':[query_all_dict_table_items()]+[{'123':345}]}
-    return render_to_response('eogserver/test.html',obj,context_instance=RequestContext(request))
+    return render_to_response('eogserver/overview.html',obj,context_instance=RequestContext(request))
 
     retu_obj = generate_failure( u'中文',data=objs,test='123')
     return HttpResponse(json.dumps(query_all_dict_table_items()))

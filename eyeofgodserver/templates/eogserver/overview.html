@@ -11,6 +11,22 @@
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
     <link rel="stylesheet/less" type="text/css" href="css/main.less" />
+
+<script>
+let temp = []
+{% for item in data %}
+    i = {{forloop.counter}}-1
+    temp[i] = {}
+    {% for k,v in item.items %}
+    temp[i]['{{ k }}'] = '{{ v }}'
+    {% endfor %}
+{% endfor %}
+window.state_data = temp 
+
+console.log(window.state_data)
+</script>
+
+
     <title></title>
   </head>
   <body>
@@ -88,10 +104,10 @@
       </div>
     </div>
   </body>
-  <script type="text/javascript" src="scripts/lib/ovgap.js"></script>
-  <script type="text/javascript" src="scripts/lib/less.min.js"></script>
-  <script type="text/javascript" src="scripts/lib/zepto.min.js"></script>
-  <script type="text/javascript" src="scripts/lib/swipeSlide.min.js"></script>
-  <script type="text/javascript" src="scripts/overview.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/lib/ovgap.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/lib/less.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/lib/zepto.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/lib/swipeSlide.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/overview.js"></script>
 </html>
 
