@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="green">
+    <meta name="Keywords" content="百分点">
+    <meta name="Description" content="百分点大数据">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet/less" type="text/css" href="css/main.less" />
+    <title></title>
+  </head>
+  <body>
+    <div class="sex-tab">
+      <div class="tab-chil-box clearfix">
+        <div class="tab-chil tab-chil-active tab-chil-male pull-right">
+          <div class="fa fa-male"></div>
+          <p>男</p>
+        </div>
+      </div>
+      <div class="tab-chil-box clearfix">
+        <div class="tab-chil tab-chil-female pull-left">
+          <div class="fa fa-female"></div>
+          <p>女</p>
+        </div>
+      </div>
+    </div>
+    <div class="restroom-men restroom-show">
+      <div class="toliet-con-box">
+        <div class="toliet-remind-info">
+          <p>男已有N人添加提醒</p>
+          <p>预计3min有空闲</p>
+          <div class="toliet-remind-btn">提醒我</div>
+        </div>
+        <div class="toliet-remind-info">
+          <span>共10间，闲3间</span>
+        </div>
+        <div class="toliet-area shower-area" pie-chart-men>
+          <h3>C区</h3>
+          <div class="shower-pie" id="pieChartMen">
+            <div class="shower-pie-busy">占用</div>
+            <div class="shower-pie-notBusy">空闲</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="restroom-female">
+      <div class="toliet-con-box">
+        <div class="toliet-remind-info">
+          <p>女已有N人添加提醒</p>
+          <p>预计3min有空闲</p>
+          <div class="toliet-remind-btn">提醒我</div>
+        </div>
+        <div ng-if="!allData.busy" class="toliet-remind-info">
+          <span>女共10间，闲3间</span>
+        </div>
+        <div class="toliet-area shower-area" pie-chart-women>
+          <h3>C区</h3>
+          <div class="shower-pie" id="pieChartWomen">
+            <div class="shower-pie-busy">占用</div>
+            <div class="shower-pie-notBusy">空闲</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="scripts/lib/less.min.js"></script>
+  <script type="text/javascript" src="scripts/lib/zepto.min.js"></script>
+  <script type="text/javascript" src="scripts/lib/echarts.min.js"></script>
+  <script type="text/javascript" src="scripts/shower.js"></script>
+</html>
+
