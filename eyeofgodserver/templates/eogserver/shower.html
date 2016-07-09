@@ -8,10 +8,23 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="green">
     <meta name="Keywords" content="百分点">
     <meta name="Description" content="百分点大数据">
-    <link rel="stylesheet" type="text/css" href="css/base.css">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-    <link rel="stylesheet/less" type="text/css" href="css/main.less" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}eogserver/css/base.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}eogserver/css/font-awesome.min.css">
+    <link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}eogserver/css/main.less" />
     <title></title>
+    <script>
+      let temp = []
+      {% for item in data %}
+          i = {{forloop.counter}}-1
+          temp[i] = {}
+          {% for k,v in item.items %}
+          temp[i]['{{ k }}'] = '{{ v }}'
+          {% endfor %}
+      {% endfor %}
+      window.state_data = temp 
+      
+      console.log(window.state_data)
+    </script>
   </head>
   <body>
     <div class="sex-tab">
@@ -67,9 +80,9 @@
       </div>
     </div>
   </body>
-  <script type="text/javascript" src="scripts/lib/less.min.js"></script>
-  <script type="text/javascript" src="scripts/lib/zepto.min.js"></script>
-  <script type="text/javascript" src="scripts/lib/echarts.min.js"></script>
-  <script type="text/javascript" src="scripts/shower.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/lib/less.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/lib/zepto.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/lib/echarts.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}eogserver/scripts/shower.js"></script>
 </html>
 
