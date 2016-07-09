@@ -11,6 +11,17 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+class Device(models.Model):
+    id = models.IntegerField(primary_key=True)
+    mark = models.CharField(max_length=128, blank=True)
+    name = models.CharField(max_length=64, blank=True)
+    model = models.CharField(max_length=64, blank=True)
+    brand = models.CharField(max_length=20, blank=True)
+    createtime = models.IntegerField(blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'device'
+
 class Dict(models.Model):
     textid = models.IntegerField(primary_key=True)
     text = models.CharField(max_length=20, blank=True)
@@ -20,13 +31,28 @@ class Dict(models.Model):
 
 class Event(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    mark = models.CharField(max_length=20, blank=True)
+    mark = models.CharField(max_length=128, blank=True)
     state = models.IntegerField(blank=True, null=True)
     info = models.CharField(max_length=512, blank=True)
     timestamp = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False
         db_table = 'event'
+
+class MonitorApp(models.Model):
+    uid = models.IntegerField(blank=True, null=True)
+    createtime = models.IntegerField(blank=True, null=True)
+    sourceid = models.IntegerField(blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'monitor_app'
+
+class MonitorDevice(models.Model):
+    deviceid = models.IntegerField()
+    state = models.IntegerField(blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'monitor_device'
 
 class Remind(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -42,7 +68,7 @@ class Source(models.Model):
     id = models.IntegerField(primary_key=True)
     textid = models.IntegerField(blank=True, null=True)
     location = models.CharField(max_length=1, blank=True)
-    mark = models.CharField(max_length=20, blank=True)
+    mark = models.CharField(max_length=128, blank=True)
     state = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False

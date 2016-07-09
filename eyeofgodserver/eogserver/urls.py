@@ -5,6 +5,7 @@ from eogserver import views
 
 urlpatterns = patterns('',
     url(r'^test/$', views.test ),
+    url(r'^test2/$', views.test2 ),
 
     url(r'^sensor/postdata',views.sensor_postdata),
 

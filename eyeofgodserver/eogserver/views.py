@@ -81,7 +81,7 @@ def sensor_postdata(request):
                       state = data['state'],
                       timestamp = data['timestamp'],
                       info = str(info_dict))
-        event.save()
+        event.save() 
         retu_obj = generate_success()
     return retu_obj
 
@@ -182,16 +182,15 @@ def app_subscription(request):
 @csrf_exempt
 def app_page_online(request):
     keys = ['mac','childurl']
-    
     retu_dict = check_keys( request.POST,keys )
     if retu_dict['code'] != 1:
-        return generate_failure( retu_dict['msg'] )
+        return HttpResponse(json.dumps(generate_failure( retu_dict['msg'] )))
 
-    '''测试数据
-    retu_dict = generate_success( data={} )
-    retu_dict['data']['mac'] = 'test1'
-    retu_dict['data']['childurl'] = 'toliet'
-    '''
+    #测试数据
+    #retu_dict = generate_success( data={} )
+    #retu_dict['data']['mac'] = 'test1'
+    #retu_dict['data']['childurl'] = 'toliet'
+    
 
     func_map = {
         'register':retu_page_register,
@@ -204,7 +203,6 @@ def app_page_online(request):
     user_info = get_user_info_by_mac(retu_dict['data']['mac'])
     func = func_map[retu_dict['data']['childurl']]
     page,obj = func(user_info)
-    print obj
     return render_to_response(page,obj,context_instance=RequestContext(request))
 
 def get_user_info_by_mac(mac):
@@ -302,10 +300,37 @@ def retu_page_restroom(user_info):
 
 
 
+@csrf_exempt
+def test2(request):
+    return render_to_response('eogserver/toliet.html',{},context_instance=RequestContext(request))
+
+
+@csrf_exempt
+@return_http_json
+def test(request):
+    retu_dict = generate_success( data={} )
+    retu_dict['data']['mac'] = 'test1'
+    retu_dict['data']['childurl'] = 'toliet'
+
+    func_map = { 
+        'register':retu_page_register,
+        'overview':retu_page_overview,
+        'toliet':retu_page_toliet,
+        'shower':retu_page_shower,
+        'eggchair':retu_page_eggchair,
+        'restroom':retu_page_restroom,
+    }   
+    user_info = get_user_info_by_mac(retu_dict['data']['mac'])
+    func = func_map[retu_dict['data']['childurl']]
+    page,obj = func(user_info)
+    return obj
+    return render_to_response(page,obj,context_instance=RequestContext(request))
 
 
 
 
+
+'''
 @csrf_exempt
 def test(request):
     # this is only for test
@@ -325,7 +350,7 @@ def test(request):
 
     retu_obj = generate_failure( u'中文',data=objs,test='123')
     return HttpResponse(json.dumps(query_all_dict_table_items()))
-
+'''
 
 
 
