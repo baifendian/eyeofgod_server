@@ -106,6 +106,15 @@ $('.sex-tab .tab-chil-female').on('click', function() {
 //// 使用刚指定的配置项和数据显示图表。
 //myChart2.setOption(option2);
 
-
+//all提醒我
+$('.toliet-remind-btn').on('click', function() {
+  if ($(this).html() === '提醒我') {
+    $(this).addClass('remind-btn-active');
+    $(this).html('取消提醒');
+  } else {
+    $(this).removeClass('remind-btn-active');
+    $(this).html('提醒我');
+  }
+});
 
 
