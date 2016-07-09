@@ -1,0 +1,242 @@
+<div class="footer">
+    <span class="f_r f10 g9">Copyright 2015 Baifendian Corporation All Rights Reserved.   |   京ICP备09109727号   |   京公网安备11010802010283号</span>
+    <img src="__PUBLIC__/__LANG__/img/login_logo02.png" alt=""/>
+</div>
+</div>
+{include file="Public/set_layout_menu.html"}
+{*}
+<!--弹出确定框-->
+<div class="modal fade" id="_show_fail" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog wd500">
+        <div class="modal-content topdtn">
+            <div class="modal-body">
+                <div class="line26"><span class="glyphicon glyphicon-remove vt f22 mr10 orange"></span><span id="_show_fail_content">该菜单下的子级菜单将全部被删除</span></div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary wd100" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-white wd100" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{*}
+<!--弹出系统提示-->
+<div class="modal fade" id="_show_fail" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog wd500">
+        <div class="modal-content topxt">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div class="modal-title">系统提示</div>
+            </div>
+            <div class="modal-body">
+                <div class="mt10"><span class="glyphicon glyphicon-remove vt f22 mr10 orange"></span><span id="_show_fail_content">操作失败！</span></div>
+            </div>
+            <div class="modal-footer" style="height:70px;text-align:center">
+            	<button type="button" class="btn btn-primary wd100" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--弹出系统提示-->
+<div class="modal fade" id="_show_info" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog wd500">
+        <div class="modal-content topxt">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div class="modal-title">系统提示</div>
+            </div>
+            <div class="modal-body">
+                <div class="mt10"><span class="vt f22 mr10 orange"></span><span id="_show_info_content">恭喜您，登录成功！</span></div>
+            </div>
+            <div class="modal-footer" style="height:70px;text-align:center">
+            	<button type="button" class="btn btn-primary wd100" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--弹出系统提示-->
+<div class="modal fade" id="_show_success" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog wd500">
+        <div class="modal-content topxt">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div class="modal-title"></div>
+            </div>
+            <div class="modal-body">
+                <div class="line26 f18 orange">系统提示：</div>
+                <div class="mt10"><span class="fa fa-check vt f22 mr10 orange"></span><span id="_show_success_content">恭喜您，登录成功！</span></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--弹出系统提示-->
+<div class="modal fade" id="_show_image" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content topxt">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div class="modal-title">查看图片</div>
+            </div>
+            <div class="modal-body" id="_show_image_content">
+                
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--弹出系统提示-->
+<div class="modal fade" id="_show_select_col" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content topxt">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div class="modal-title">自定义选择列</div>
+            </div>
+            <div class="modal-body" id="_show_select_col_content">
+                
+            </div>
+            <div class="modal-footer" style="height:70px;text-align:center">
+            	<button type="button" class="btn btn-primary wd100" onclick="_save_select_col()" data-dismiss="modal">确定</button>
+            	<button type="button" class="btn btn-white wd100" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- Mainly scripts -->
+
+<script src="__PUBLIC__/__LANG__/js/plugins/metisMenu/jquery.metisMenu.js?v={$bmm_version}"></script>
+<script src="__PUBLIC__/__LANG__/js/plugins/slimscroll/jquery.slimscroll.min.js?v={$bmm_version}"></script>
+<script src="__PUBLIC__/__LANG__/js/plugins/jeditable/jquery.jeditable.js?v={$bmm_version}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="__PUBLIC__/__LANG__/js/inspinia.js?v={$bmm_version}"></script>
+<script src="__PUBLIC__/__LANG__/js/plugins/pace/pace.min.js?v={$bmm_version}"></script>
+<script type="text/javascript">
+{foreach from=$js_function_init key=key item=jsfunction}
+	function {$key}() {
+		_show_fail('{$jsfunction}');
+	}
+{/foreach}
+
+
+// 判断浏览器是否支持placeholder属性兼容ie9
+
+(function ($) {
+    $.fn.extend({
+        "placeholder":function (options) {
+            options = $.extend({
+                placeholderColor:'#ACA899',
+                isUseSpan:false ,
+                onInput:true  
+            }, options);
+			
+            $(this).each(function () {
+                var _this = this;
+                var supportPlaceholder = 'placeholder' in document.createElement('input');
+                if (!supportPlaceholder) {
+                	if ( $('.span_'+$(_this).attr('id')).length != 0 ) {
+                		$('.span_'+$(_this).attr('id')).remove();
+                	}
+                    var defaultValue = $(_this).attr('placeholder');
+                    var defaultColor = $(_this).css('color');
+                    if (options.isUseSpan == false) {
+                        $(_this).focus(function () {
+                            var pattern = new RegExp("^" + defaultValue + "$|^$");
+                            pattern.test($(_this).val()) && $(_this).val('').css('color', defaultColor);
+                        }).blur(function () {
+                                if ($(_this).val() == defaultValue) {
+                                    $(_this).css('color', defaultColor);
+                                } else if ($(_this).val().length == 0) {
+                                    $(_this).val(defaultValue).css('color', options.placeholderColor)
+                                }
+                            }).trigger('blur');
+                    } else {
+                        var $imitate = $('<span class="wrap-placeholder span_'+$(_this).attr('id')+'" style="position:absolute; display:inline-block; overflow:hidden; color:'+options.placeholderColor+'; width:'+$(_this).outerWidth()+'100+px; height:'+30+'px;">' + defaultValue + '</span>');
+						if($imitate[0].innerHTML=='undefined'){
+							$imitate[0].style.poacity=0;
+						}
+                        $imitate.css({
+                            'margin-left':$(_this).css('margin-left'),
+                            'margin-top':$(_this).css('margin-top'),
+                            'font-size':$(_this).css('font-size'),
+                            'font-family':$(_this).css('font-family'),
+                            'font-weight':$(_this).css('font-weight'),
+                            'padding-left':parseInt($(_this).css('padding-left')) + 2 + 'px',
+                            'line-height':_this.nodeName.toLowerCase() == 'textarea' ? $(_this).css('line-weight') : 30 + 'px',
+                            'padding-top':_this.nodeName.toLowerCase() == 'textarea' ? parseInt($(_this).css('padding-top')) + 2 : 0
+                        });
+                        $(_this).before($imitate.click(function () {
+                            $(_this).trigger('focus');
+                        }));
+
+                        $(_this).val().length != 0 && $imitate.hide();
+
+                        if (options.onInput) {
+                            var inputChangeEvent = typeof(_this.oninput) == 'object' ? 'input' : 'propertychange';
+                            $(_this).bind(inputChangeEvent, function () {
+                                $imitate[0].style.display = $(_this).val().length != 0 ? 'none' : 'inline-block';
+                            }).blur(function(){
+                            	$imitate[0].style.display = $(_this).val().length != 0 ? 'none' : 'inline-block';
+                            });
+                        } else {
+                            $(_this).focus(function () {
+                                $imitate.hide();
+                            }).blur(function () {
+                                    /^$/.test($(_this).val()) && $imitate.show();
+                                });
+                        }
+                    }
+                }
+            });
+            return this;
+        }
+    });
+})(jQuery);
+	
+$(function(){
+		$('input[type=text],input[type=password],textarea').each(function(){
+			if ( typeof $(this).attr('placeholder') != 'undefined' && $(this).attr('placeholder') != '') {
+                $(this).placeholder({isUseSpan:true});
+            }
+        });
+		
+		//SEM创意插入通配符提示消失
+		$('#btn1').click(function(){
+			$('#sem_titleid').prev('.wrap-placeholder').hide();
+			
+		});
+		$('#btn2').click(function(){
+			
+			$('#sem_remark1').prev('.wrap-placeholder').hide();
+		});
+		$('#btn3').click(function(){
+			
+			$('#sem_remark2').prev('.wrap-placeholder').hide();
+		});
+		//弹窗下拉
+		$('.dropdown-menu').each(function(index,element){
+			if($(this).children().length>5){
+				$(this).addClass('roll')
+			}
+		})
+		
+	
+})
+
+</script>
+
+  
+
+</body>
+</html>

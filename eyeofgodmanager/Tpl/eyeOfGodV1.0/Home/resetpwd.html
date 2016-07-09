@@ -1,0 +1,110 @@
+{include file="Home/common/header_index.html"}
+<!--背景-->
+<div class="loginbody"><img src="__PUBLIC__/__LANG__/img/login_bg01.jpg" alt=""/></div>
+<div class="login_container rel">
+    <span class="loginlogo"><img src="__PUBLIC__/__LANG__/img/login_logo01.png" alt=""/></span>
+    <!--登陆内容 开始-->
+    <div class="findpwbox animated fadeInDown">
+        <div class="f18 green">设置新密码</div>
+        {if $allow_change_pass}
+        <form id="user_login_form" method="post"  action="/Home/resetpwd" autocomplete="off">
+            <div class="mt20"><input type="password" name="mustpassword1" id="mustpassword1" class="form-control" placeholder="请输入密码"></div>
+            <div class="mt20"><input type="password" name="mustpassword2" id="mustpassword2" class="form-control" placeholder="请输入确认密码"></div>
+            <div class="t_c g9 f12 mt20" id="tips" style="display:none"></div>
+            <div class="mt30 send-live"><button class="btn btn-block btn-primary" id="login_form_button">重置密码</button></div>
+            <div class="mt30 send-disable" style="display:none"><a class="btn btn-block btn-default" id="login_form_button">重置密码</a></div>
+            <div class="t_c f12 mt10"><a class="bluedeep" href="/Home/index">返回首页</a></div>
+        </form>
+        <div class="login_info f12 t_c" style="display:none"><span class="green">恭喜您，密码修改成功。</span></div>
+        {else}
+            <div class="login_info mt40 t_c"><span class="red">{$can_change_pass.msg}</span></div>
+            <div class="t_c f12 mt10"><a class="bluedeep" href="/Home/index">返回首页</a></div>
+        {/if}
+    </div>
+    <!--登陆内容 结束-->
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+    $('input[type=password]').focus(function(){
+        $('#tips').hide();
+        $('#tips').html('');
+    });
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+	$("#user_login_form").submit(function(){
+		var p1 = $('#mustpassword1'),p2 = $('#mustpassword2');
+		var pre_tips = '<span class="fa fa-exclamation-triangle mr5"></span>';
+	    var rules = {
+	    		mustpassword1: function(v) {
+	                if (!v) return '请输入密码';
+	                if (v.length<8 || v.length>20) return '密码长度只能在8-20位字符之间';
+	                var reg = /^[A-Za-z0-9]+$/;
+	        		var reg1 = /[A-Z]/;
+	        		var reg2 = /[a-z]/;
+	        		var reg3 = /[0-9]/;
+	        		if ( !(reg.test(v) && ( (reg1.test(v) && reg2.test(v)) || (reg1.test(v) && reg3.test(v)) || (reg2.test(v) && reg3.test(v))) ) )
+	        			return '密码至少包括大写字母、小写字母和数字中的2种组合';
+	            },
+	            mustpassword2: function(v) {
+	                if (!v) return '请输入确认密码';
+	            }
+		    };
+	    var isValid = true;
+	    $('input[type=password]').each(function(i, el) {
+	        el = $(el);
+	        $.each(rules, function(k, test) {
+				if (el.attr('name') == k) {
+	               var error = test(el.val());
+	               if ( error ) {
+	            	   $('#tips').show();
+	            	   $('#tips').html(pre_tips + error);
+	                   isValid = false;
+	                   return false;
+	               } else {
+	            	   $('#tips').hide();
+	                   $('#tips').html('');
+	               }
+				}
+	        });
+	        if (!isValid) return false;
+	    });
+	    if (!isValid) return false;
+	    if (p1.val() != p2.val()) {
+     	   $('#tips').show();
+    	   $('#tips').html(pre_tips + '<% __e("新密码与确认密码不一致!");%>');
+    	   return false;
+	    }
+		$('.send-live').hide();
+		$('.send-disable').show();
+        $("#user_login_form").ajaxSubmit(function(data){
+            if(data!='OK'){
+            	$('#tips').show();
+				$('.send-live').show();
+				$('.send-disable').hide();
+            }
+            switch(data){
+				case 'E_EMPTY':
+					$('#tips').html(pre_tips + '<% __e("密码信息不能为空!");%>');
+                    break;
+				case 'E_LENGTH':
+					$('#tips').html(pre_tips + '<% __e("密码不得少于6位!");%>');
+                    break;
+				case 'E_PASSWD':
+					$('#tips').html(pre_tips + '<% __e("新密码与确认密码不一致!");%>');
+					break;
+                case "OK":
+                	$('.login_info').show();
+                    break;
+                default:
+                	$('#tips').html(pre_tips + '<% __e("密码修改失败，请联系管理员");%>');
+            }
+        });
+		return false;
+	});
+});
+</script>
+{include file="Home/common/footer_index.html"}

@@ -1,0 +1,109 @@
+/**
+ *  jingjing.liu@baifendian.com
+ * 
+ */
+.big {
+	background-color: #f7f8f3; 
+	height: 410px; 
+	width: 100%; 
+	margin: 0 auto;  
+	overflow: hidden; 
+	position: relative;
+}
+
+.big0 { 
+	background-color:#f4f5f3; 
+	border-radius: 600px; 
+	height: 1200px;
+	left: -243px;
+	position: absolute; 
+	top: -397px; 
+	width: 1200px;
+	z-index: 100;
+}
+
+.big1 { 
+	background-color:#f4f5ed; 
+	border-radius: 500px; 
+	height: 1000px;
+	left: -200px;
+	position: absolute; 
+	top: -295px; 
+	width: 1000px;
+	z-index: 200;
+}
+
+.big2 { 
+	background-color: #f0f2e5; 
+	border-radius: 400px;
+	height: 800px;
+	left: -158px; 
+	position: absolute; 
+	top: -197px;
+    width: 800px;z-index: 300;
+}
+
+.big3 {
+	background-color: #f0f2e5; 
+	border-radius: 300px; 
+	height: 600px; 
+	left: -93px; 
+	position: absolute;
+	top: -96px; 
+	width: 600px;
+	z-index: 400;
+}
+
+.big4 {  
+	background-color: #f0f3de;
+	border-radius: 250px; 
+	height: 500px; 
+	left: -149px; 
+	position: absolute; 
+	top: -47px; 
+	width: 500px; 
+	z-index: 500;
+}
+
+.big5 { 
+	background-color: #eaeed3; 
+	width: 240px; 
+	height: 240px; 
+	position: absolute; 
+	top:83px; 
+	left:-35px;
+	border-radius:150px; 
+	z-index: 600;
+}
+
+.big6 { 
+	background-color: #98bf00; 
+	width: 100px; 
+	height: 100px; 
+	position:absolute; 
+	top:150px; 
+	left:30px;
+	border-radius:50px; 
+	z-index: 700; 
+}
+
+.big7 { 
+	background-color: rgba(255, 255, 255, 0); 
+	height: 410px; 
+	width: 100%; 
+	margin: 0 auto;  
+	overflow: hidden; 
+	position: relative; 
+	z-index: 1000; 
+}
+
+.radar-boder {
+	border: 2px solid #fff;  
+}
+
+.radar-text { 
+	text-align: center; 
+	font-size: 16px; 
+	color: #fff; 
+	line-height: 150px;
+}

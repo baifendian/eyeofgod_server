@@ -1,0 +1,124 @@
+<!--#js队列-->
+<script language="javascript" src="__PUBLIC__/__LANG__/js/jquery.queue.js" type="text/javascript"></script>
+<script src="__PUBLIC__/__LANG__/js/plugins/high-charts/highcharts.js"></script>
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div  class="row h160 ml0 mr0 mb30" style="margin-right:-10px;">
+	     <div class="whitebg whitebg_c">
+	        <h2 class="f16 pl5 pb15 bbe">app用户量 </h2>
+	        <h2 class="f30 t_c pb15 new_number">{$user_count.all} 人</h2>
+	        <p class="pl20 pr20 f_r bac394" id="hotsale"><span ></span><i class="fa"></i></p>
+	    </div>
+	     <div class="whitebg  whitebg_c">     
+	        <h2 class="f16 pl5 pb15 bbe">当天新增 </h2>
+	        <h2 class="f30 t_c pb15 new_number">{$user_count.today} 人</h2>
+	        <p class="pl20 pr20 f_r bac565" id="volume"><span></span><i class="fa"></i></p>
+	    </div>  
+	</div>
+	
+    <div class="ibox-content">
+        <div class="ovh" >
+            <div class="left" style="width:49%; float:left;margin-right:2%">
+                <div class="brand ovh" >
+                    <p class="analyze f16">男女占比</p>
+                    <div class="p20 ovh">
+                        <div class="trend" id="sex_proportion" style="height: 400px;width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left" style="width:49%; float:left;">
+                <div class="brand ovh" >
+                    <p class="analyze f16">资源使用情况</p>
+                    <div class="p20 ovh">
+                        <div class="trend" id="source_useful" style="height: 400px;width: 100%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="brand ovh" >
+            <p class="analyze f16">时间分布</p>
+            <div class="p20 ovh">
+                <div class="trend" id="source_working_distributione" style="width: 100%;height: 400px;">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	Highcharts.setOptions({
+       title:{text:null},
+       credits:{enabled:false},
+       exporting:{enabled:false},
+       lang: {
+           resetZoom: '重置',
+           resetZoomTitle: '重置缩放比例'
+       },
+       tooltip: {shared: true},
+       yAxis: {title: {text: null}},
+       xAxis: {title:{text: null}},  
+       plotOptions: {
+           area: {
+               stacking: 'normal',
+               lineColor: '#ffffff',
+               lineWidth: 1,
+               marker: {
+                   lineWidth: 1,
+                   lineColor: '#ffffff'
+               }
+           }
+       },   
+   })
+	var colors = ['#89b522','#a1cd3a','#c7dd3c','#d3e55e','#c3ed95','#a3d9bf','#bfe9af','#d5edb3','#89b522','#a1cd3a'];
+    $('#sex_proportion').highcharts({
+        chart: {type: 'pie'},
+        colors: colors,
+        tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' },
+        plotOptions: { 
+        	pie: { 
+        		allowPointSelect: true, 
+        		cursor: 'pointer', 
+        		dataLabels: { enabled: true, color: '#000000', connectorColor: '#000000', format: '<b>{point.name}</b>: {point.percentage:.1f} %' } 
+        	} 
+        },
+        legend: {enabled: false},
+        series: [{ name: '占比', data: [{ name: '男', y: {$sex_proportion.1.proportion}, sliced: true, selected: true }, ['女', {$sex_proportion.0.proportion}]]}]
+    });
+    
+    var source = ['男坐便', '男蹲便', '女坐便', '女蹲便', '男淋浴间', '女淋浴间', '男休息室', '女休息室', '蛋椅'];
+    $('#source_useful').highcharts({
+        chart: {type: 'column'},
+        colors: colors,
+        yAxis: { title: { text: '次数' } },
+        xAxis: {
+            categories: {$app_resource_count.x|json_encode},
+        },
+        plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } }, 
+        legend: {enabled: false},
+        series: [{ name: '次数', data: {$app_resource_count.data|json_encode}}]
+    });
+    
+    var x = {$x|json_encode};
+    $('#source_working_distributione').highcharts({
+        chart: {type: 'area'},
+        colors: colors,
+        xAxis: {
+            categories: x,
+            min: 0.5,
+            max: x.length-1.5,
+            minPadding: 0,
+            maxPadding: 0,
+            align: "left",    
+            tickInterval:(function() {
+                return parseInt( x.length/3)
+            })()
+        },
+        yAxis: { title: { text: '次数' } },
+        series: {$data|json_encode}
+    });
+    
+});
+</script>

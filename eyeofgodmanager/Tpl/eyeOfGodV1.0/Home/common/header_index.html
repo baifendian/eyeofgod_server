@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="{$__sysytem_config__.__site_config__.keywords}" name="keywords">
+	<meta content='{$__sysytem_config__.__site_config__.content}' name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$title}</title>
+    <link href="__PUBLIC__/__LANG__/css/bootstrap.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/font-awesome/css/font-awesome.css?v={$bmm_version}" rel="stylesheet">
+    <!-- Toastr style -->
+    <link href="__PUBLIC__/__LANG__/css/plugins/toastr/toastr.min.css?v={$bmm_version}" rel="stylesheet">
+    <!--iCheck-->
+    <link href="__PUBLIC__/__LANG__/js/plugins/iCheck/custom.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/cjbase.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/animate.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/style.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/main.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/login.css?v={$bmm_version}" rel="stylesheet">
+    
+	<!-- Mainly scripts -->
+	<script src="__PUBLIC__/__LANG__/js/jquery.min.js?v={$bmm_version}"></script>
+	<script src="__PUBLIC__/__LANG__/js/jquery.form.js?v={$bmm_version}" type="text/javascript"></script>
+	
+	<!-- iCheck -->
+	<script src="__PUBLIC__/__LANG__/js/plugins/iCheck/icheck.min.js?v={$bmm_version}"></script>
+	<!-- Tinycon -->
+	<script src="__PUBLIC__/__LANG__/js/plugins/tinycon/tinycon.min.js?v={$bmm_version}"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="__PUBLIC__/__LANG__/js/html5shiv.js?v={$bmm_version}"></script>
+    <script src="__PUBLIC__/__LANG__/js/respond.min.js?v={$bmm_version}"></script>
+    <![endif]-->
+	<script type="text/javascript">
+	function _refresh_verify_code() {
+		$("#refresh_verify_code").attr('src','/Home/vcode/?t='+Math.random());	
+	}
+	function _hide_button(o){
+		var url = '<samp id="adv_show_loading">'+
+		'<div class="sk-spinner sk-spinner-fading-circle">'+
+        '<div class="sk-circle1 sk-circle"></div>'+
+        '<div class="sk-circle2 sk-circle"></div>'+
+        '<div class="sk-circle3 sk-circle"></div>'+
+        '<div class="sk-circle4 sk-circle"></div>'+
+        '<div class="sk-circle5 sk-circle"></div>'+
+        '<div class="sk-circle6 sk-circle"></div>'+
+        '<div class="sk-circle7 sk-circle"></div>'+
+        '<div class="sk-circle8 sk-circle"></div>'+
+        '<div class="sk-circle9 sk-circle"></div>'+
+        '<div class="sk-circle10 sk-circle"></div>'+
+        '<div class="sk-circle11 sk-circle"></div>'+
+        '<div class="sk-circle12 sk-circle"></div>'+
+    	'</div></samp>';
+		$(o).after(url); $(o).hide();
+	}
+	function _show_button(o){
+		$("#adv_show_loading").remove(); $(o).show();
+	}
+	</script>	
+</head>
+<body>

@@ -1,0 +1,57 @@
+<style>
+.f10 a{
+	color:black
+}
+a.green {
+	color:#98BF00
+}
+</style>
+
+<span class="f10 defaultrange">
+	<a href="javascript:;" class="{if $day==''}green{/if}" onclick="_set_char_time_string('{$dash_id}','today');">今天</a>
+	<a href="javascript:;" class="ml20 {if $day=='1'}green{/if}" onclick="_set_char_time_string('{$dash_id}','last','1');">昨天</a>
+	<a href="javascript:;" class="ml20 {if $day=='7'}green{/if}" onclick="_set_char_time_string('{$dash_id}','last','7');">最近7天</a>
+	<a href="javascript:;" class="ml20 {if $day=='15'}green{/if}" onclick="_set_char_time_string('{$dash_id}','last','15');">最近15天</a>
+	<a href="javascript:;" class="ml20 {if $day=='30'}green{/if}" onclick="_set_char_time_string('{$dash_id}','last','30');">最近30天</a>
+</span>
+<div class="input-daterange input-group wd300 ml5" id="datepicker">
+	<input type="text" class="form-control input-sm" id="{$dash_id}start_day" init="{$start_day}" name="{$dash_id}start_day" value="{$start_day}"/>
+	<span class="input-group-addon">至</span>
+	<input type="text" class="form-control input-sm" id="{$dash_id}end_day" init="{$end_day}" name="{$dash_id}end_day" value="{$end_day}" />
+</div>
+	
+{*}{if $is_export}<a class="btn btn-primary btn-sm ml5 mr2" onclick="export_report(this);" title="导出"><span class="fa fa-upload"></span></a>{/if}{*}
+
+<script type="text/javascript">
+$('#datepicker').datepicker({
+	language: "zh-CN",
+	autoclose: true,
+	multidate: true,
+	multidateSeparator: ',',
+}).on('hide',function(ev) {
+/*	
+	{if !$dashboard}
+		var $chanel = $('#channel_arg').val();
+		if ($chanel == 4 || $chanel == 5) {
+			$('#call_char_call_arg').val('send');
+		} else {
+			$('#call_char_call_arg').val('{if $edm}send{else}show{/if}');
+		}
+	{else}
+		$('#call_char_call_arg').val('show');
+	{/if}
+*/	
+	if (typeof default_show_arg !='undefined' && default_show_arg != '') {
+		$('#call_char_call_arg').val(default_show_arg);
+	} else {
+		$('#call_char_call_arg').val('{$default_show_arg}');
+	}
+	
+	var $input_obj = $(ev.target);
+	if ( $input_obj.val() !== $input_obj.attr('init') ) {
+		$input_obj.attr('init',$input_obj.val());
+		$('.defaultrange a').removeClass('green');
+		search_data();
+	}
+});
+</script>
