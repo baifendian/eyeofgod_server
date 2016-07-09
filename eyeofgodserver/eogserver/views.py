@@ -126,23 +126,13 @@ def app_getregisterinfo(request):
     keys = ['mac']
     retu_dict = check_keys( request.POST,keys )
     if retu_dict['code'] != 1:
-        retu_obj = generate_failure( retu_dict['msg'] )
+        return generate_failure( retu_dict['msg'] )
+
+    user_info = get_user_info_by_mac(retu_dict['data']['mac'])
+    if user_info:
+        return generate_failure(data=user_info)
     else:
-        querys = User.objects.filter(retu_dict['data']['mac'])
-        if len(querys) == 0:
-            retu_obj = generate_failure(u'传入的mac无效')        
-        else:
-            q = querys[0]
-            retu_obj = generate_success(data={
-                sex:q.sex,
-                location:q.location,
-                advanced:q.advanced,
-                mac:q.mac,
-                token:q.token,
-                createtime:q.createtime,
-                modifytime:q.modifytime
-            })
-    return retu_obj
+        return generate_failure(u'传入的mac无效')
 
 @csrf_exempt
 @return_http_json
@@ -171,10 +161,122 @@ def app_subscription(request):
     return retu_obj
 
 @csrf_exempt
-@return_http_json
 def app_page_online(request):
-    retu_obj = generate_success()
-    return retu_obj
+    keys = ['mac','childurl']
+    
+    retu_dict = check_keys( request.POST,keys )
+    if retu_dict['code'] != 1:
+        return generate_failure( retu_dict['msg'] )
+
+    '''测试数据
+    retu_dict = generate_success( data={} )
+    retu_dict['data']['mac'] = 'test1'
+    retu_dict['data']['childurl'] = 'toliet'
+    '''
+
+    func_map = {
+        'register':retu_page_register,
+        'overview':retu_page_overview,
+        'toliet':retu_page_toliet,
+        'shower':retu_page_shower,
+        'eggchair':retu_page_eggchair,
+        'restroom':retu_page_restroom,
+    }
+    user_info = get_user_info_by_mac(retu_dict['data']['mac'])
+    func = func_map[retu_dict['data']['childurl']]
+    page,obj = func(user_info)
+    print obj
+    return render_to_response(page,obj,context_instance=RequestContext(request))
+
+def get_user_info_by_mac(mac):
+    querys = User.objects.filter(mac=mac)
+    if len(querys) == 0:
+        return None
+    else:
+        q = querys[0]    
+        data = {
+            'id':q.id,
+            'sex':q.sex,
+            'location':q.location,
+            'advanced':q.advanced,
+            'mac':q.mac,
+            'token':q.token,
+            'createtime':q.createtime,
+            'modifytime':q.modifytime
+        }
+        return data
+
+def retu_page_register(user_info):
+    d = [user_info] if user_info else []
+    return ('eogserver/register.html',{'data':d})
+
+def check_user_registered(func_obj):
+    def wrapper(user_info):
+        if user_info == None:
+            return retu_page_register(None)
+        else:
+            return func_obj(user_info)
+    return wrapper
+
+def find_source_type_and_user_connection(user_id,text_id):
+    query = Source.objects.filter( textid = text_id )
+    data = []
+    for item in query:
+        d = {
+            'id':item.id,
+            'textid':item.textid,
+            'location':item.location,
+            'mark':item.mark,
+            'state':item.state
+        }
+        if len(Remind.objects.filter( userid=user_id,sourceid=d['id'],state=1 )) == 0:
+            s = 0
+        else:
+            s = 1
+        d['subscription'] = s
+        data.append(d)
+    return data
+
+
+@check_user_registered
+def retu_page_overview(user_info):
+    pass        
+
+@check_user_registered
+def retu_page_toliet(user_info):
+    if user_info['sex'] == 1:
+        data = find_source_type_and_user_connection(user_info['id'],1) + \
+                find_source_type_and_user_connection(user_info['id'],2)
+    else:
+        data = find_source_type_and_user_connection(user_info['id'],4) + \
+                find_source_type_and_user_connection(user_info['id'],5)
+    return ('eogserver/toliet.html',{'data':data})
+
+
+@check_user_registered
+def retu_page_shower(user_info):
+    if user_info['sex'] == 1:
+        data = find_source_type_and_user_connection(user_info['id'],3)
+    else:
+        data = find_source_type_and_user_connection(user_info['id'],6)
+    return ('eogserver/shower.html',{'data':data})
+
+
+@check_user_registered
+def retu_page_eggchair(user_info):
+    data = find_source_type_and_user_connection(user_info['id'],7)
+    return ('eogserver/eggchair.html',{'data':data})
+
+@check_user_registered
+def retu_page_restroom(user_info):
+    if user_info['sex'] == 1:
+        data = find_source_type_and_user_connection(user_info['id'],8)
+    else:
+        data = find_source_type_and_user_connection(user_info['id'],9)
+    return ('eogserver/restroom.html',{'data':data})
+
+
+
 
 
 
@@ -196,7 +298,7 @@ def test(request):
             'state':item.state,
         } )
 
-    obj = {'data':[query_all_dict_table_items()]+[{'123':345}]}
+    obj = {'data':[query_all_dict_table_items()]}
     return render_to_response('eogserver/overview.html',obj,context_instance=RequestContext(request))
 
     retu_obj = generate_failure( u'中文',data=objs,test='123')
