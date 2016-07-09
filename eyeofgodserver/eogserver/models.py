@@ -22,6 +22,7 @@ class Event(models.Model):
     id = models.BigIntegerField(primary_key=True)
     mark = models.CharField(max_length=20, blank=True)
     state = models.IntegerField(blank=True, null=True)
+    info = models.CharField(max_length=512, blank=True)
     timestamp = models.IntegerField(blank=True, null=True)
     class Meta:
         managed = False

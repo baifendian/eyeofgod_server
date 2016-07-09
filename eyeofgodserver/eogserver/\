@@ -74,13 +74,10 @@ def sensor_postdata(request):
         retu_obj = generate_failure( retu_dict['msg'] )
     else:
         data = retu_dict['data']
-        info_dict = {}
-        for k in request.POST.viewkeys():
-            info_dict[k] = request.POST.get(k)
         event = Event(mark = data['mark'],
                       state = data['state'],
                       timestamp = data['timestamp'],
-                      info = str(info_dict))
+                      info = str(dict(request.POST)))
         event.save()
         retu_obj = generate_success()
     return retu_obj
@@ -97,24 +94,25 @@ def app_register(request):
     else:
         querys = User.objects.filter( mac = retu_dict['data']['mac'] )
         cur_time = generate_cur_time_stamp()
+        createtime = cur_time if len(querys)==0 else querys[0].createtime
 
         if len(querys) == 0:
             u = User(
                 sex = retu_dict['data']['sex'],
-                location = retu_dict['data']['location'],
-                advanced = retu_dict['data']['advanced'],
-                mac = retu_dict['data']['mac'],
-                token = retu_dict['data']['token'],
-                createtime = cur_time,
-                modifytime = cur_time
+                location:retu_dict['data']['location'],
+                advanced:retu_dict['data']['advanced'],
+                mac:retu_dict['data']['mac'],
+                token:retu_dict['data']['token'],
+                createtime:cur_time,
+                modifytime:cur_time
             )
         else:
             u = querys[0]
-            u.sex = retu_dict['data']['sex']
-            u.location = retu_dict['data']['location']
-            u.advanced = retu_dict['data']['advanced']
-            u.mac = retu_dict['data']['mac']
-            u.token = retu_dict['data']['token']
+            u.sex = retu_dict['data']['sex'],
+            u.location = retu_dict['data']['location'],
+            u.advanced = retu_dict['data']['advanced'],
+            u.mac = retu_dict['data']['mac'],
+            u.token = retu_dict['data']['token'],
             u.modifytime = cur_time
         u.save()
         retu_obj = generate_success()
