@@ -136,14 +136,26 @@
 //var myData = data.data;
 
 var myData = {};
-$.ajax({
-	type:"post",
-	url:"http://192.168.1.140:9000/app/state/toliet",
-	async:true,
-	success: function(data) {
-	  myData = data.data;
-	}
-});
+
+window.location = '?callobjectC&mac';
+function getDeviceToken(str) {
+  
+  $.ajax({
+    type:"post",
+    url:"http://192.168.1.140:9000/app/state/toliet",
+    async:true,
+    data: {
+      "mac": str
+    },
+    success: function(data) {
+      console.log(data);
+      myData = data.data
+    },
+    error: function(data) {
+      
+    }
+  });
+}
 
 
 var allStateMen = 0;

@@ -32,22 +32,30 @@
 //}
 
 
-
 var myData2 = {};
 var myData = {};
+window.location = '?callobjectC&mac';
+function getDeviceToken(str) {
+  
+  $.ajax({
+    type:"post",
+    url:"http://192.168.1.140:9000/app/state/overview",
+    async:true,
+    data: {
+      "mac": str
+    },
+    success: function(data) {
+      console.log(data);
+      myData2 = data.data
+    },
+    error: function(data) {
+      
+    }
+  });
+}
 
-$.ajax({
-	type:"post",
-	url:"http://192.168.1.140:9000/app/state/overview",
-	async:true,
-	success: function(data) {
-	  console.log(data);
-	  myData2 = data.data
-	},
-	error: function(data) {
-	  
-	}
-});
+
+
 
 
 

@@ -1,15 +1,39 @@
 
 //历史假数据
-var myData = {
-  "msg": "123",
-  "code": 1,
-  "data": {
-    "sex": 1,
-    "location": "F",
-    "advanced": 0,
-    "mac": "test1"
-  }
+//var myData = {
+//"msg": "123",
+//"code": 1,
+//"data": {
+//  "sex": 1,
+//  "location": "F",
+//  "advanced": 0,
+//  "mac": "test1"
+//}
+//}
+
+var myData = {};
+
+window.location = '?callobjectC&mac';
+function getDeviceToken(str) {
+  
+  $.ajax({
+    type:"post",
+    url:"http://192.168.1.140:9000/app/info/registered",
+    async:true,
+    data: {
+      "mac": str
+    },
+    success: function(data) {
+      console.log(data);
+      myData = data.data
+    },
+    error: function(data) {
+      
+    }
+  });
 }
+
+
 
 //历史数据
 
