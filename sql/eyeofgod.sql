@@ -1,6 +1,6 @@
-/*
+﻿/*
 SQLyog Ultimate v11.42 (64 bit)
-MySQL - 5.5.37-log : Database - eye.of.god
+MySQL - 5.5.371-log : Database - eye.of.god
 *********************************************************************
 */
 
