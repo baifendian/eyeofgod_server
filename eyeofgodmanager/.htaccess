@@ -1,0 +1,10 @@
+RewriteEngine on
+RewriteCond    %{REQUEST_FILENAME} !-d
+RewriteCond    %{REQUEST_FILENAME} !-f
+RewriteRule    ^(.+)$ index.php/$1 [QSA,L]
+#RewriteRule    !\.(js|ico|gif|swf|flv|jpg|png|css|zip|rar|tar|pdf|mp3|wav|rmvb|rm)$ index.php [QSA,L]
+ErrorDocument 401 /errors/internalerror.php
+ErrorDocument 402 /errors/internalerror.php
+ErrorDocument 403 /errors/internalerror.php
+ErrorDocument 404 /errors/internalerror.php
+ErrorDocument 500 /errors/internalerror.php

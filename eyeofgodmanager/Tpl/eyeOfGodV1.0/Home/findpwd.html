@@ -1,0 +1,107 @@
+{include file="Home/common/header_index.html"}
+<div class="findpwbg"></div>
+<div class="loginbody"><img src="__PUBLIC__/__LANG__/img/login_bg01.jpg" alt=""/></div>
+<div class="login_container rel">
+    <span class="loginlogo"><img src="__PUBLIC__/__LANG__/img/login_logo01.png" alt=""/></span>
+    <!--登陆内容 开始-->
+    <div class="findpwbox animated fadeInDown">
+        <div class="f18 green">填写以下信息找回密码</div>
+        <form id="user_login_form" method="post"  action="/Home/findpwd" autocomplete="off">
+            <div class="mt20"><input type="text" name="username" id="username" class="form-control" placeholder="登陆邮箱"></div>
+            <div class="mt20 form-inline">
+            <span class="rel">
+                <input type="text" name="vericode" id="vericode" class="form-control wd150" placeholder="验证码">
+            </span>
+                <span class="ml5"><img id="refresh_verify_code" onclick="_refresh_verify_code();" width="100" height="30" src="__APP__/Home/vcode" alt=""/></span>
+                <a class="ml5 f12 bluedeep"  onclick="_refresh_verify_code();">换一张</a>
+            </div>
+            <div class="t_c g9 f12 mt20" id="tips" style="display:none"></div>
+            <div class="mt30 send-live"><button class="btn btn-block btn-primary" id="login_form_button">发送验证信息到邮箱</button></div>
+            <div class="mt30 send-disable" style="display:none"><a class="btn btn-block btn-default" id="login_form_button">发送验证信息到邮箱</a></div>
+            <div class="t_c f12 mt10"><a class="bluedeep" href="/Home/index">返回首页</a></div>
+        </form>
+        <div class="login_info f12 t_c" style="display:none"><span class="green">恭喜您，重置密码信息已经发送到您的邮箱，请注意查收。</span></div>
+
+    </div>
+    <!--登陆内容 结束-->
+</div>
+<script>
+$(function() {
+    $('input[type=text]').focus(function(){
+        $('#tips').hide();
+        $('#tips').html('');
+    });
+	$("#user_login_form").submit(function(){
+		var u = $('#username'),
+			v = $('#vericode');
+		var pre_tips = '<span class="fa fa-exclamation-triangle mr5"></span>';
+	    var rules = {
+	            username: function(v) {
+	                if (!v) return '请输入用户名';
+	            },
+	            vericode: function(v) {
+	                if (!v) return '请输入验证码';
+	            }
+		    };
+	    var isValid = true;
+	    $('input[type=text]').each(function(i, el) {
+            el = $(el);
+            $.each(rules, function(k, test) {
+				if (el.attr('name') == k) {
+	               var error = test(el.val());
+	               if ( error ) {
+	            	   $('#tips').show();
+	            	   $('#tips').html(pre_tips + error);
+	                   isValid = false;
+	                   return false;
+	               } else {
+	            	   $('#tips').hide();
+	                   $('#tips').html('');
+	               }
+				}
+            });
+            if (!isValid) return false;
+        });
+	    if (!isValid) return false;
+		$('.send-live').hide();
+		$('.send-disable').show();
+		$(this).ajaxSubmit(function(data){
+			if ( data!='OK' ) {
+				$('#tips').show();
+				$('.send-live').show();
+				$('.send-disable').hide();
+			}
+			switch(data) {
+				case 'OK':
+					$('.login_info').show();
+					break;
+				case 'E_EMAIL':
+					$('#tips').html(pre_tips + '<% __e("邮箱格式错误")%>');
+					break;
+				case 'EMAIL_NOT_ACTIVE':
+					$('#tips').html(pre_tips + '<% __e("邮箱未激活");%>');
+					break;
+				case 'E_STATUS':
+					$('#tips').html(pre_tips + '<% __e("账户不存在或已锁定！");%>');
+					break;
+				case 'E_VCODE':
+					$('#tips').html(pre_tips + '<% __e("验证码错误！");%>');
+					_refresh_verify_code();
+					v.val('');
+					break;
+				default:
+					if (data.substr(0,2) == 'TO') {
+						loading('<% __e("跳转中，请稍后...");%>');
+						var url = data.substr(3);
+						location.href = url;
+						return false;
+					}
+					$('#tips').html(pre_tips + data);
+					break;
+			}
+		});
+		return false;
+	});
+});
+</script>
+{include file="Home/common/footer_index.html"}

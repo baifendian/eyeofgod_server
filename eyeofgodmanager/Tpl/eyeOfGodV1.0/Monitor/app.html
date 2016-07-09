@@ -1,0 +1,141 @@
+<script type="text/javascript">
+    $(function(){
+        //渲染jqgrid表格js代码
+        $("#advertise_tab").jqGrid({
+            url:'__APP__/Monitor/ajaxGetAppList/?close_auth_reload=true',
+            datatype: "json",
+            mtype: 'POST',
+            postData: _get_config(),
+            colNames:['用户ID', '登陆时间', '使用资源'],
+            colModel:[
+       	     	{name:'uid',index:'uid', width:90,editable:false,editoptions : {size : 10},align:"center",title:false,hidden:false},
+       	     	{name:'createtime',index:'createtime', width:90,editable:false,editoptions : {size : 10},align:"center",title:false,hidden:false},
+       			{name:'text',index:'text', width:90,editable:false,editoptions : {size : 10},align:"center",title:false,hidden:false},
+            ],
+            jsonReader : {
+            	root: "rows", // json中代表实际模型数据的入口
+      			page: "page", // json中代表当前页码的数据
+				total: "total", // json中代表页码总数的数据
+               	records: "records", // json中代表数据行总数的数据
+              	repeatitems: false // 如果设为false，则jqGrid在解析json时，会根据name来搜索对应的数据元素（即可以json中元素可以不按顺序）；而所使用的name是来自于colModel中的name设定。
+            },
+            shrinkToFit:true,
+            editurl : "/Monitor/oper",
+            autowidth:true,
+            pager: jQuery('#advertise_plan_page'),       //分页层
+            rowNum:10,                      //每页的记录数
+            rowList:[10,20,30],             //一个数组用来调整表格显示的记录数
+            imgpath: 'themes/sand/images',  //图片路径
+            sortname: 'createtime',            //排序列的名称，此参数会被传到后台
+            viewrecords: true,              //是否要显示总记录数
+            sortorder: "desc",              //排序顺序，升序或者降序（asc or desc）
+            multiselect: false,              //定义是否可以多选
+            altRows:true,                   //设置表格 zebra-striped 值(定义隔行变色)
+            height:"100%",                  //设置表格高度
+            prmNames: {_search: "search"},
+            caption: ""
+        });
+        //setTimeout('singleSearch_ad()',10000);
+        /*
+       jQuery("#advertise_tab").jqGrid('navGrid','#advertise_plan_page',
+        	{ add:true,
+    	   	  reloadAfterSubmit:true,
+    	   	  closeOnEscape:true,
+    	   	  closeAfterAdd:true,
+    	   	  edit:true,
+    	   	  closeAfterEdit:true,
+    	   	  del:true,
+    	   	  search:false,
+    	   	  refresh:false
+    	    }
+       );
+        */
+    });
+    		
+    function _get_config(){
+        var sdata = {
+        		table:'{$table}',
+            searchField: $("#searchField").val(), //搜索广告计划
+            searchVal: $("#searchVal").val(),//搜索关键字
+            searchStatus:$("#searchStatus").val(),  //全部状态
+            vocation:$("#vocation").val(),  //时间间隔
+        };
+        return sdata;
+    }
+    /*点击搜索*/
+    function singleSearch_ad() {
+        var sdata = _get_config();
+        var postData = $("#advertise_tab").jqGrid("getGridParam", "postData");
+        $.extend(postData, sdata);
+        $("#advertise_tab").jqGrid("setGridParam", {
+            search: true
+        }).trigger("reloadGrid", [{page:1}]);
+    };
+
+    
+</script>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox">
+        <div class="ibox-content">
+       	{if $list}
+            <div class="mt15 formitem">
+                <div class="form-inline">
+			    {foreach from=$alltables item=tab key=key name=fs}
+			    	<a href='__APP__/Dict/index/tab/{$key}' class="btn btn-primary btn-sm ml5">{$tab}</a>
+			    {/foreach} 
+                </div>
+            </div>
+            <!--jqgrid-->
+            <div class="jqGrid_wrapper mt30">
+                <table id="advertise_tab"></table>
+                <div id="advertise_plan_page"></div>
+            </div>
+        {else}
+        	{if $diff}
+           <div class="well">
+               <h3 class="m-t-lg">LAST AND CHANGED</h3>
+	               <div class="row diff-wrapper">
+	                   <div class="col-md-2">
+	                       <h4>字段</h4>
+	                   </div>
+	                   <div class="col-md-3">
+	                       <h4>上次</h4>
+	                   </div>
+	                   <div class="col-md-3">
+	                       <h4>修改</h4>
+	                   </div>
+	                   <div class="col-md-3">
+	                       <h4>不同</h4>
+	                   </div>
+	               </div>
+	           	{foreach from=$merge key=key item=item}
+	               <div class="mt20 row diff-wrapper">
+	                   <div class="col-md-2">
+	                       <div>{$key}</div>
+	                   </div>
+	                   <div class="col-md-3">
+	                       <div class="original">{$item.0}</div>
+	                   </div>
+	                   <div class="col-md-3">
+	                       <div class="changed">{$item.1}</div>
+	                   </div>
+	                   <div class="col-md-3">
+	                       <div class="diff1"></div>
+	                   </div>
+	               </div>
+	           	{/foreach}
+           </div>
+           	{else}
+           <div class="well">
+               <h3 class="m-t-lg">DATA ITEM</h3>
+	           	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	           	{foreach from=$old key=key item=item}
+	           		<tr><td>{$key}:</td><td>{$item}</td></tr>
+	           	{/foreach}
+	           	</table>
+           	</div>
+           	{/if}
+        {/if}
+        </div>
+    </div>
+</div>

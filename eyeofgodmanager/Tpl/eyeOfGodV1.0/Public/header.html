@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="{$__sysytem_config__.__site_config__.keywords}" name="keywords">
+	<meta content='{$__sysytem_config__.__site_config__.content}' name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$title}</title>
+    <link href="__PUBLIC__/__LANG__/css/bootstrap.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/font-awesome/css/font-awesome.css?v={$bmm_version}" rel="stylesheet">
+   
+    <link type="text/css" href="__PUBLIC__/__LANG__/css/plugins/chosen/chosen.css?v={$bmm_version}" rel="stylesheet" />
+    
+    <link href="__PUBLIC__/__LANG__/fonts/iconfont.css?v={$bmm_version}" rel="stylesheet">
+    <!-- jqgrid -->
+    <link href="__PUBLIC__/__LANG__/js/plugins/jqGrid/ui.jqgrid.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/js/plugins/jquery-ui/jquery-ui-1.10.4.custom.min.css?v={$bmm_version}" rel="stylesheet">
+    <!-- datapicker -->
+    <link href="__PUBLIC__/__LANG__/js/plugins/datapicker/datepicker3.css?v={$bmm_version}" rel="stylesheet">
+    <!--iCheck-->
+    <link href="__PUBLIC__/__LANG__/js/plugins/iCheck/custom.css?v={$bmm_version}" rel="stylesheet">
+    <!-- switchery -->
+    <link href="__PUBLIC__/__LANG__/js/plugins/switchery/switchery.css?v={$bmm_version}" rel="stylesheet">
+
+    <link href="__PUBLIC__/__LANG__/css/cjbase.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/animate.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/style.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/main.css?v={$bmm_version}" rel="stylesheet">
+    <link href="__PUBLIC__/__LANG__/css/jquery.tagsinput.css?v={$bmm_version}" rel="stylesheet">
+    
+	{*}
+	<script src="__PUBLIC__/__LANG__/js/jquery.min.js?v={$bmm_version}"></script>
+	{*}
+	<script src="__PUBLIC__/__LANG__/js/jquery-2.1.1.js?v={$bmm_version}"></script>
+	<script src="__PUBLIC__/__LANG__/js/jquery.form.js?v={$bmm_version}" type="text/javascript"></script>
+	<script src="__PUBLIC__/__LANG__/js/bootstrap.min.js?v={$bmm_version}"></script>
+	<script src="__PUBLIC__/__LANG__/js/common.js?v={$bmm_version}"></script>
+	
+	<script src="__PUBLIC__/__LANG__/js/plugins/chosen/chosen.jquery.js?v={$bmm_version}"></script>
+	<!-- jqGrid -->
+	<script src="__PUBLIC__/__LANG__/js/plugins/jqGrid/i18n/grid.locale-cn.js?v={$bmm_version}"></script>
+	<script src="__PUBLIC__/__LANG__/js/plugins/jqGrid/jquery.jqGrid.min.js?v={$bmm_version}"></script>
+	<!--jquery-ui-->
+	<script src="__PUBLIC__/__LANG__/js/plugins/jquery-ui/jquery-ui.min.js?v={$bmm_version}"></script>
+	<!-- Data picker -->
+	<script src="__PUBLIC__/__LANG__/js/plugins/datapicker/bootstrap-datepicker.js?v={$bmm_version}"></script>
+	<script src="__PUBLIC__/__LANG__/js/plugins/datapicker/locales/bootstrap-datepicker.zh-CN.min.js?v={$bmm_version}"></script>
+	<!-- iCheck -->
+	<script src="__PUBLIC__/__LANG__/js/plugins/iCheck/icheck.min.js?v={$bmm_version}"></script>
+    <!-- 样式input -->
+    <link href="__PUBLIC__/__LANG__/js/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css?v={$bmm_version}" rel="stylesheet">
+	<!-- Switchery -->
+	<script src="__PUBLIC__/__LANG__/js/plugins/switchery/switchery.js?v={$bmm_version}"></script>
+	<!-- Tinycon -->
+	<script src="__PUBLIC__/__LANG__/js/plugins/tinycon/tinycon.min.js?v={$bmm_version}"></script>
+	<!--自动完成-->
+	<script type='text/javascript' src='__PUBLIC__/__LANG__/js/plugins/auto/jquery.autocomplete.js?v={$bmm_version}'></script>
+    <!-- 词云 -->
+    <link rel="stylesheet" href="__PUBLIC__/__LANG__/css/validator-0.7.3/jquery.validator.css?v={$bmm_version}">
+    <script type="text/javascript" src="__PUBLIC__/__LANG__/css/validator-0.7.3/jquery.validator.js?v={$bmm_version}"></script>
+    <script type="text/javascript" src="__PUBLIC__/__LANG__/css/validator-0.7.3/local/zh_CN.js?v={$bmm_version}"></script>    
+    <script src="__PUBLIC__/__LANG__/js/jquery.tagsinput.js?v={$bmm_version}"></script>
+    <script src="__PUBLIC__/__LANG__/js/raphael-min.js?v={$bmm_version}"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="__PUBLIC__/__LANG__/js/html5shiv.js?v={$bmm_version}"></script>
+    <script src="__PUBLIC__/__LANG__/js/respond.min.js?v={$bmm_version}"></script>
+    <![endif]-->
+    <script type='text/javascript'>
+	function __do_login_out(){
+		$("body").empty().html('loading...');
+		window.setTimeout(function(){
+			window.location.href = '__APP__/Index/logout/';
+		},200);	
+		//delCookie('__rand_hash_app_data__','/');
+	}
+	function _hide_button(o){
+		var url = '<samp class="f_l" id="adv_show_loading">'+
+		'<div class="sk-spinner sk-spinner-fading-circle">'+
+        '<div class="sk-circle1 sk-circle"></div>'+
+        '<div class="sk-circle2 sk-circle"></div>'+
+        '<div class="sk-circle3 sk-circle"></div>'+
+        '<div class="sk-circle4 sk-circle"></div>'+
+        '<div class="sk-circle5 sk-circle"></div>'+
+        '<div class="sk-circle6 sk-circle"></div>'+
+        '<div class="sk-circle7 sk-circle"></div>'+
+        '<div class="sk-circle8 sk-circle"></div>'+
+        '<div class="sk-circle9 sk-circle"></div>'+
+        '<div class="sk-circle10 sk-circle"></div>'+
+        '<div class="sk-circle11 sk-circle"></div>'+
+        '<div class="sk-circle12 sk-circle"></div>'+
+    	'</div></samp>';
+		$(o).after(url); $(o).hide();
+	}
+	function _show_button(o){
+		$("#adv_show_loading").remove(); $(o).show();
+	}
+    function js_location(url){
+        window.setTimeout(function(){
+            window.location.href=url;
+        },2000);
+    }
+	function _show_success(content) {
+		$("body").css('padding-right','0px');//先把上个弹窗处理一下
+		
+	    var $modal300 = $('#_show_success');
+	    $('#_show_success_content').text(content);
+	    $modal300.modal('toggle');
+	    setTimeout(function(){
+	    	$('#_show_success').modal("hide");
+	    },3000);
+	}
+	function _show_fail(content) {
+		$("body").css('padding-right','0px');//先把上个弹窗处理一下
+	    
+	    var $modal300 = $('#_show_fail');
+	    $('#_show_fail_content').text(content);
+	    $modal300.modal('toggle');
+	    setTimeout(function(){
+	    	$('#_show_fail').modal("hide");
+	    },3000);
+	}
+	function _show_info(content) {
+	    var $modal300 = $('#_show_info');
+	    $('#_show_info_content').text(content);
+	    $modal300.modal('toggle');
+	}
+	function _show_image(url) {
+	    var $modal300 = $('#_show_image');
+	    $('#_show_image_content').html('<img src="'+url+'">');
+	    $modal300.modal('toggle');
+	}
+	
+	//全选
+	function __fixed_all(){
+		$("#_chooseColumn input").each(function(){
+			$(this).removeAttr("checked");
+			$(this).prop("checked",true);
+		});
+	}
+	//反选
+	function __unfixed_all(){
+		$("#_chooseColumn input").each(function(){
+			var _fixed = $(this).is(':checked') ? false : true;
+			if (_fixed) {
+				$(this).prop("checked",true);
+			} else {
+				$(this).removeAttr("checked");
+			}
+		});
+	}
+	
+    /*表格验证*/
+    function _set_table_col_list(jqgrid_id,pager,model,call_back_function,call_url){
+        var self = jQuery("#"+jqgrid_id).jqGrid('navGrid','#'+pager,{add:false,edit:false,del:false,search:false,refresh:false});
+		self.jqGrid('navButtonAdd','#'+pager,{
+            caption: "<% __e('列表选择项');%>",  //列表选择项
+            buttonicon: "ui-icon-calculator",
+            title: "<% __e('列表选择');%>",   //列表选择
+            onClickButton : function () {
+				var html = '';
+				var $ext_select_col = $('<div></div>');
+				var customColModel = self.jqGrid("getGridParam", "colModel");
+				var customColNames = self.jqGrid("getGridParam", "colNames");
+				for (var i in customColModel) {
+					var tempname = customColModel[i]['name'];
+					var width = customColModel[i]['width'];
+					var tempid = 'id_ext_' + tempname;
+					var temptext = customColNames[i];
+					var temphidden = customColModel[i]['hidden'];
+					var width = customColModel[i]['width'];
+					var tempdisabled = customColModel[i]['disabledcol'];
+					var curexistcol = customColModel[i]['existcol'];
+					if ( curexistcol || tempname=='cb' ) continue;
+					if ( !temphidden ) {
+						if(tempdisabled){
+							$('<div class="checkbox checkbox-success checkbox-inline pl15"><input id="' + tempid + '" __width="' + width + '" type="checkbox" value="'+i+'" name="'+tempname+'" checked="checked" disabled="disabled"><label for="' + tempid + '">' + temptext + '</label></div>').appendTo($ext_select_col);
+						}else{
+							$('<div class="checkbox checkbox-success checkbox-inline pl15"><input id="' + tempid + '" __width="' + width + '" type="checkbox" value="'+i+'" name="'+tempname+'" checked="checked" ><label for="' + tempid + '">' + temptext + '</label></div>').appendTo($ext_select_col);
+						}
+					} else {
+						if(tempdisabled){
+							$('<div class="checkbox checkbox-success checkbox-inline pl15"><input id="' + tempid + '" __width="' + width + '" type="checkbox" value="'+i+'" name="'+tempname+'" disabled="disabled"><label for="' + tempid + '">' + temptext + '</label></div>').appendTo($ext_select_col);
+						}else{
+							$('<div class="checkbox checkbox-success checkbox-inline pl15"><input id="' + tempid + '" __width="' + width + '" type="checkbox" value="'+i+'" name="'+tempname+'" ><label for="' + tempid + '">' + temptext + '</label></div>').appendTo($ext_select_col);
+						}
+					}
+				}
+				var fixed_html = '<div class="row mr10" style="text-align:right"><a class="green" href="javascript:;" onclick="__fixed_all();">全选</a>&nbsp;<a class="green" href="javascript:;" onclick="__unfixed_all();">反选</a></div>';
+				fixed_html += '<input type="hidden" id="__app_model__" value="'+model+'" /><input type="hidden" id="__app_dom_id__" value="'+jqgrid_id+'"/>';
+				var _content = '<div class="append_choose_column" id="_chooseColumn"><div class="fixed_dialog_area">'+$ext_select_col.html() + '</div>'+fixed_html +'<div class="clear"></div></div>';
+				var $modal300 = $('#_show_select_col');
+			    $('#_show_select_col_content').html(_content);
+			    $modal300.modal('toggle');
+            }
+        });
+    }
+    // 导出报表按钮显示
+    function _upload_report(jqgrid_id,pager,model,call_back_function,call_url) {
+    	var self = jQuery("#"+jqgrid_id).jqGrid('navGrid','#'+pager,{add:false,edit:false,del:false,search:false,refresh:false});
+    	self.jqGrid('navButtonAdd','#'+pager,{
+            caption: "<% __e('导出报表');%>", 
+            buttonicon: "ui-icon-disk",
+            title: "<% __e('导出');%>",  
+            onClickButton : function() {
+            	export_report(this);
+            }
+        });
+    }
+    
+   	function _save_select_col() {
+   		var jqgrid_id = $('#__app_dom_id__').val();
+	   	var model = $('#__app_model__').val();
+	   	var self = jQuery("#"+jqgrid_id);
+		var customColModel = self.jqGrid("getGridParam", "colModel");
+		var customColNames = self.jqGrid("getGridParam", "colNames");
+		var __call_data__ = {'__app_model__' :model,'__app_dom_id__':jqgrid_id}
+		var sParameter = {};
+    	var count = 0;
+    	var ingrone = ['verify_creative_list','ad_creative_list'];
+		$('#_chooseColumn').find("input[type='checkbox']").each(function() {
+			var curArr = sParameter[customColModel[this.value]['name']] = [];
+			var _name = $(this).attr('name');
+	    	if ( $(this).is(':checked') ) {
+	    		count++;
+				self.jqGrid("showCol",_name);
+				curArr.push('showCol');
+	        } else {
+				curArr.push('hideCol');
+				self.jqGrid("hideCol",_name);
+	        }
+			curArr.push(customColModel[this.value]['name']);
+			if(customColModel[this.value]['disabledcol']){
+				curArr.push('disabledcol');
+			}else{
+				curArr.push('contrlcol');
+			}
+	    });
+		/*
+		var obj = self.jqGrid("getRowData");
+		$(obj).each( function() {
+			var _id = this[_tempid];
+			for ( key in in_names ) {
+				var stitle = $(this[in_names[key]]).attr('stitle');
+				$('#'+in_names[key]+_id).text(stitle);
+			}
+	    });*/
+	    if ( !in_array(model,ingrone) ) {
+			if ( count > 5 ) {
+				self.jqGrid("setGridParam", {shrinkToFit:false,autowidth:false});
+			} else {
+				self.jqGrid("setGridParam", {shrinkToFit:true,autowidth:true});
+			}
+	    }
+		for(var i in __call_data__){
+			sParameter[i] = __call_data__[i];
+		}
+        $.post('__APP__/index/save_config/',sParameter,function(data){
+        	autowidth();
+        	$('#_show_select_col').modal('close');
+		});
+   	}
+   	
+   	//IE9不兼容placeholder问题
+   	function reloadPlaceholder (objs) {
+   		for( key in objs ) {
+   			$('#'+objs[key]).placeholder({isUseSpan:true});
+   		}
+   	}
+	
+   	//图片，flash鼠标移上事件
+   	function bindMouseEvent(){
+   		$(".objectbox,.thickbox").mouseover(function(e){
+        	$("#preview11").remove();
+        	var hasClassThickbox = $(this).hasClass('thickbox');
+        	var h = $(window).height();//浏览器的高度
+            var ey = e.clientY;//鼠标距离浏览器顶上的高度
+        	if(hasClassThickbox){//图片
+        		var $src = $(this).find('img').attr('thicksrc');    
+        		if($src==undefined || $src == null){
+        			$src = $(this).attr('thicksrc');
+        		}
+        		var theimage = new Image();
+        		theimage.src = $src;
+        		var height = theimage.height;//高
+        		var preview = "<div id='preview11' class='creative_preview'>"+
+            	"<img src='" + $src + "'/></div>";
+        	}else{//flash
+                var $src = $(this).find('param').eq(0).attr('value');//flash地址
+                var width = $(this).attr('stuff_length');//宽
+                var height = $(this).attr('stuff_width');//高
+                var preview = "<div id='preview11' class='creative_preview'>" +
+                '<object width="'+width+'" height="'+height+'" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="0">'+
+                '<param value="' +$src+'" name="movie">'+
+                '<param value="high" name="quality">' +
+                '<param value="transparent" name="wmode">' +
+                '<param value="false" name="menu">' +
+                '<param value="false" name="allowfullscreen">' +
+                '<param value="always" name="allowscriptaccess">' +
+                '<embed allowscriptaccess="always" wmode="transparent" style="width:'+width+'px;height:'+height+'px;" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="' +$src+'" name="1" id="1">' +
+                '</object>'+
+                '</div>';
+        	}
+            $("body").append(preview);
+            
+            //得到预览显示的位置
+            var yy = (h - ey) - height;
+            if (yy > 0)  yy = 0;
+            $("#preview11").css({
+                "top": (e.pageY + yy) + "px",
+                "left": (e.pageX + 5) + "px",
+                "position": "absolute"
+            }).fadeIn("fast");
+        }).mouseout(function (e) {
+    		$("#preview11").remove();
+    	});
+   	}
+   	
+   	function hasAdver(amodel) {
+   		var locations = {
+   			'campaign':'__APP__/AdvertiseCampaign/addAdvertiseCampaign',
+   			'burst':'__APP__/AdvertiseBurst/addAdvertiseBurst',
+   			'plan':'__APP__/AdvertisePlan/addAdvertisePlan'
+   		};
+   		if ( amodel == 'plan' ) {
+   			var $channel = $('#channel').val();
+   			locations.plan += '/channel/'+$channel;
+   		}
+   	{if $is_agent}
+   		$.ajax({
+   	    	type:"POST",
+   	    	url:"/AdvertiseCampaign/hasAdvertiser",
+   	    	async:true,
+   	    	dataType:"json",
+   	   		success:function(data) {
+				if ( !empty(data) ) {
+					window.location.href = locations[amodel];
+				} else {
+					_show_fail('没有广告主，请先创建广告主');
+				}
+   		    }
+   	   });
+   	{else}
+   		window.location.href = locations[amodel];
+   	{/if}
+   	}
+   	
+	/*查询*/
+    function getPlaceholder (ul_obj) {
+        var $placeholder = {
+                'keyword':'请输入关键词名称',
+                'adplan':'请输入计划名称',
+                'adburst':'请输入阶段名称',
+                'adcampaign':'请输入活动名称',
+               	'dsp':'请输入DSP名称', 
+                'advertiser':'请输入广告主名称', 
+                'compname':'请输入公司名称',
+                'compsite':'请输入网址',
+                'contact':'请输入联系人名称',
+                'telephone':'请输入联系电话',
+                'account':'请输入账号名称',
+                'order_sn':'请输入流水号',
+                'creativename':'请输入广告创意',
+                'campaignName':'请输入推广计划名称',
+                'adgroupName':'请输入推广单元名称'
+            };
+        var parent_div = ul_obj.parent(),
+            placeholder_index = parent_div.find('input[type=hidden]').val();
+        $('#searchVal').attr('placeholder',$placeholder[placeholder_index]);
+        reloadPlaceholder(['searchVal']);
+    }
+    
+    function randerEvent() {
+        $("ul.dropdown-menu:not([except='true']) li a").unbind('click').bind("click", function() {
+            var $this = $(this);
+            var $ul = $this.parent().parent();
+            //当前选中项处理
+            $ul.find('a').removeClass('a_active');
+            $this.addClass('a_active');
+            //var $button = $ul.prev();
+            var $button = $ul.parent().find('button');
+            if ( $ul.attr('filltext') == 'true' ) {
+                $button.text($this.text());
+                $button.append("&nbsp;<span class='caret border_sanjiao'></span>");
+            }
+            var obj_data = $this.attr('data');
+            $ul.next().val(obj_data);
+            switch ($ul.attr('trigger')) {
+                case 'searching':
+                    search_data();
+                    break;
+                case 'changesearch':
+                    getPlaceholder($ul);
+                    break;
+                case 'operation':
+                    doOperation(obj_data);
+                    break;
+                case 'linkage':
+                	linkage(obj_data);
+                    break;
+                case 'crontab':
+                	crontab(obj_data);
+                	break;
+                case '_search_dsp':
+                	_search_dsp();
+                    break;
+                case 'changerule':
+                	changerule(obj_data);
+                    break;
+                case 'changechannel':
+                	changechannel(obj_data);
+                	break;
+                case 'form':
+                	$ul.parent().find('label.error').remove();
+                    break;
+                case 'form&&linkage':
+                	$ul.parent().find('label.error').remove();
+                	linkage($ul.next().attr('id'));
+                    break;
+                case 'linkage&&searching':
+                	linkage($ul.next().attr('id'));
+                	search_data();
+                    break;
+                default:   
+                	break;
+            }
+        });
+    }
+
+    $(function() {
+        $("ul.dropdown-menu:not([except='true']) li a").bind("click", function() {
+            var $this = $(this);
+            var $ul = $this.parent().parent();
+            //当前选中项处理
+            $ul.find('a').removeClass('a_active');
+            $this.addClass('a_active');
+            //var $button = $ul.prev();
+            var $button = $ul.parent().find('button');
+            if ( $ul.attr('filltext') == 'true' ) {
+                $button.text($this.text());
+                $button.append("&nbsp;<span class='caret border_sanjiao'></span>");
+            }
+            var obj_data = $this.attr('data');
+            $ul.next().val(obj_data);
+            switch ($ul.attr('trigger')) {
+	            case 'searching':
+	                search_data();
+	                break;
+	            case 'changesearch':
+	                getPlaceholder($ul);
+	                break;
+	            case 'operation':
+	                doOperation(obj_data);
+	                break;
+	            case 'linkage':
+	            	linkage(obj_data);
+	                break;
+                case 'crontab':
+                	crontab(obj_data);
+                    break;
+                case '_search_dsp':
+                	_search_dsp();
+                    break;
+                case 'changerule':
+                	changerule(obj_data);
+                    break;
+                case 'changechannel':
+                	changechannel(obj_data);
+                	break;
+	            case 'form':
+	            	$ul.parent().find('label.error').remove();
+	                break;
+	            case 'form&&linkage':
+	            	$ul.parent().find('label.error').remove();
+	            	linkage($ul.next().attr('id'));
+	                break;
+	            case 'linkage&&searching':
+	            	linkage($ul.next().attr('id'));
+	            	search_data();
+	                break;
+	            default:   
+	            	break;
+            }
+        });
+    });
+</script>
+
+
+</head>
+<body>
+<style>
+.creative_preview{
+	z-index:2600;
+	/* border:2px solid #000; */
+}
+</style>

@@ -1,0 +1,55 @@
+{include file="Public/header.html"}
+<div id="wrapper">
+<!--左边导航-->
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element"> <span><img alt="logo" src="__PUBLIC__/__LANG__/img/logo01.png"/></span> </div>
+                <div class="logo-element"> <span><img alt="logo" src="__PUBLIC__/__LANG__/img/logo01_small.png"/></span> </div>
+            </li>
+            
+            <li class="h24"></li>
+            <!-- <li {if $__curent_model__ eq 'home'}class="active"{/if}> <a href="__APP__/Home/index"><i class="fa fa-home"></i> <span class="nav-label">dashboard</span></a> </li> -->
+            <li {if $__curent_model__ eq 'dict'}class="active"{/if}> <a href="__APP__/Dict/index"><i class="fa fa-gear"></i> <span class="nav-label">资源管理</span></a> </li>
+            <li {if $__curent_model__ eq 'monitor'}class="active"{/if}> <a href="__APP__/Monitor/index"><i class="fa fa-video-camera" style="width:15px;"></i> <span class="nav-label">资源监控</span><span class="fa arrow"></span></a> 
+            	<ul class="nav nav-second-level collapse">
+            		<li {if $__curent_action__ eq "index"}class="active"{/if}><a href="__APP__/Monitor/index">设备监控</a></li>
+            		<li {if $__curent_action__ eq "app"}class="active"{/if}><a href="__APP__/Monitor/app">app监控</a></li>
+            	</ul>
+            </li>
+            <li {if $__curent_model__ eq 'report'}class="active"{/if}> <a href="__APP__/Report/index"><i class="fa fa-bar-chart-o" style="width:15px;"></i> <span class="nav-label">数据洞察</span><span class="fa arrow"></span></a> 
+            	<ul class="nav nav-second-level collapse">
+            		<li {if $__curent_action__ eq "index"}class="active"{/if}><a href="__APP__/Report/index">设备洞察</a></li>
+            		<li {if $__curent_action__ eq "app"}class="active"{/if}><a href="__APP__/Report/app">app洞察</a></li>
+            	</ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!--右边-->
+<div id="page-wrapper" class="gray-bg">
+<div class="row head_nav">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header"> <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:;"><i class="fa fa-bars"></i> </a> </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li><span class="m-r-sm text-muted welcome-message">欢迎登陆上帝之眼后台管理系统！ 您当前用户名 <a href="javascript:;" class="green" style="text-decoration:none;">管理员</a></span> </li>
+            <li class="mr20"> <a href="javascript:;"> 安全登出 </a> </li>
+        </ul>
+    </nav>
+</div>
+{if !$dashboard}
+<div class="row wrapper white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{$title}</h2>
+    </div>
+    <div class="col-lg-2">
+    {foreach from=$new_btn item=v}
+       	{$v}
+    {/foreach}
+    </div>
+</div>
+{/if}
+
+{$right_pannel_data}
+{include file="Public/footer.html"}

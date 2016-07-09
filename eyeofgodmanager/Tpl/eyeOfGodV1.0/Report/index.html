@@ -1,0 +1,131 @@
+<!--#js队列-->
+<script language="javascript" src="__PUBLIC__/__LANG__/js/jquery.queue.js" type="text/javascript"></script>
+<script src="__PUBLIC__/__LANG__/js/plugins/high-charts/highcharts.js"></script>
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="ibox-content">
+        <div class="ovh" >
+            <div class="left" style="width:49%; float:left;margin-right:2%">
+                <div class="brand ovh" >
+                    <p class="analyze f16">设备类型统计</p>
+                    <div class="p20 ovh">
+                        <div class="trend" id="device_type" style="height: 400px;width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left" style="width:49%; float:left;">
+                <div class="brand ovh" >
+                    <p class="analyze f16">设备使用概况</p>
+                    <div class="p20 ovh">
+                        <div class="trend" id="device_useful" style="height: 400px;width: 100%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ovh" >
+            <div class="left" style="width:49%; float:left;margin-right:2%">
+                <div class="brand ovh" >
+                    <p class="analyze f16">设备状态</p>
+                    <div class="p20 ovh">
+                        <div class="trend" id="device_working_state" style="height: 400px;width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="left" style="width:49%; float:left;">
+                <div class="brand ovh" >
+                    <p class="analyze f16">设备使用频率</p>
+                    <div class="p20 ovh">
+                        <div class="trend" id="device_use_frequancy" style="height: 400px;width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	Highcharts.setOptions({
+       title:{text:null},
+       credits:{enabled:false},
+       exporting:{enabled:false},
+       lang: {
+           resetZoom: '重置',
+           resetZoomTitle: '重置缩放比例'
+       },
+       tooltip: {shared: true},
+       yAxis: {title: {text: null}},
+       xAxis: {title:{text: null}},  
+       plotOptions: {
+           area: {
+               stacking: 'normal',
+               lineColor: '#ffffff',
+               lineWidth: 1,
+               marker: {
+                   lineWidth: 1,
+                   lineColor: '#ffffff'
+               }
+           }
+       },   
+   })
+	var colors = ['#89b522','#a1cd3a','#c7dd3c','#d3e55e','#c3ed95','#a3d9bf','#bfe9af','#d5edb3','#89b522','#a1cd3a'];
+    $('#device_type').highcharts({
+        chart: {type: 'column'},
+        colors: colors,
+        yAxis: { title: { text: '数量' } },
+        xAxis: {
+            categories: ['移动传感器', '距离传感器'],
+        },
+        plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } }, 
+        legend: {enabled: false},
+        series: [{ name: '数量', data: [{$device_total.SR501.count}, {$device_total.SR04.count}]}]
+    });
+    
+    $('#device_useful').highcharts({
+        chart: {type: 'column'},
+        colors: colors,
+        yAxis: { title: { text: '数量' } },
+        xAxis: {
+            categories: ['移动传感器', '距离传感器'],
+        },
+        plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } }, 
+        legend: {enabled: false},
+        series: [{ name: '未使用', data: [{$device_use_total.SR501.0}, {$device_use_total.SR04.0}]}, { name: '已经使用', data: [{$device_use_total.SR501.1}, {$device_use_total.SR04.1}]}]
+    });
+    
+    $('#device_working_state').highcharts({
+        chart: {type: 'column'},
+        colors: colors,
+        yAxis: { title: { text: '数量' } },
+        xAxis: {
+            categories: ['移动传感器', '距离传感器'],
+        },
+        plotOptions: { column: { pointPadding: 0.2, borderWidth: 0 } }, 
+        legend: {enabled: false},
+        series: [{ name: '异常', data: [{$device_state_total.SR501.0}, {$device_state_total.SR04.0}]}, { name: '正常', data: [{$device_state_total.SR501.1}, {$device_state_total.SR04.1}]}]
+    });
+    
+    var x = {$x|json_encode};
+    $('#device_use_frequancy').highcharts({
+        chart: {type: 'area'},
+        colors: colors,
+        xAxis: {
+            categories: x,
+            min: 0.5,
+            max: x.length-1.5,
+            minPadding: 0,
+            maxPadding: 0,
+            align: "left",    
+            tickInterval:(function() {
+                return parseInt( x.length/3)
+            })()
+        },
+        yAxis: { title: { text: '频次' } },
+        series: {$data|json_encode}
+    });
+    
+});
+</script>

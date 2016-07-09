@@ -1,0 +1,66 @@
+{include file="Public/header.html"}
+
+<script src="__PUBLIC__/__LANG__/js/plugins/validate/jquery.validate.js"></script>
+
+<form method="POST" id="form_object" action="__APP__/Home/accounts" autocomplete="off">
+<div class="input-daterange input-group wd300 ml5" id="datepicker">
+	<input type="text" class="<!-- form-control input-sm -->" id="" init="" name="accounts_day" value=""/>    
+</div>
+	<input type="submit" value="提交">
+</form>
+	
+<script type="text/javascript">
+$('#datepicker').datepicker({
+	language: "zh-CN",
+	autoclose: true,
+	multidate: true,
+	multidateSeparator: ',',
+}).on('hide',function(ev) {
+	/* $('#call_char_call_arg').val('{$default_show_arg}');
+	var $input_obj = $(ev.target);
+	if ( $input_obj.val() !== $input_obj.attr('init') ) {
+		$input_obj.attr('init',$input_obj.val());
+		$('.defaultrange a').removeClass('green');
+	} */
+});
+$(function () {
+	$('#form_object').validate({
+	    errorPlacement : function(error, element) {
+	        error.appendTo(element.parent());
+	    },
+	    ignore: "",
+	    rules : {
+	    },
+	    messages: {
+	    },
+	    submitHandler: function(form) {
+	        $("#form_object").ajaxSubmit(function(data){
+	            var split_str = data.split("|");
+	            var val = $.trim(split_str[0]);
+	            switch(val){
+	                case 'ok':
+	                   	alert('操作成功');
+	                    break;
+	                case 'too_big':
+	                	alert('日期不能大于等于今天');
+	                	break;
+	                case 'no':
+	                	alert('操作失败');
+	                	break;
+	                case "log_is_empty":
+	                	alert('没有日志记录');
+	                	break;
+	                case "day_is_empty":
+	                	alert('请选择日期');
+	                	break;
+	                default:
+	                    alert('操作失败');  //操作失败
+	            }
+	        });
+	        return false; 
+	    }
+	});
+});
+</script>
+
+{include file="Public/footer.html"}

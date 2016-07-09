@@ -1,0 +1,138 @@
+<div  class="row wrapper white-bg page-heading h160">
+    <div class="col-xs-6"style=" padding-left:0px;">
+        <h2 class="f20">财务概览</h2>
+        <!--测试-->
+        <div class="cf">
+            <div></div>
+            <div class="w1 line60">
+                <span class="iconfont icon-usdcj f60 green"></span>
+            </div>
+            <div class="w2 g6 line30" style="width:188px; font-size:14px; padding-left:0px;">
+                <div>昨日消耗：<span class="green ml5">{$last_consume}</span></div>
+                <div>累计消耗：<span class="green ml5">{$total_consume}</span></div>
+                <div>剩余额度：<span class="green ml5">{$balance}</span></div>
+            </div>
+            <div class="w3 line30">
+                <div>{if $is_admin}<button class="btn btn-xs btn-primary wd85" onclick="window.location='__APP__/Finance/recharge'">我要充值</button>{/if}</div>
+                <div>{if $is_agent}<button class="btn btn-xs btn-primary wd85" onclick="window.location='__APP__/Finance/budgetAllocation'">分配预算</button>{/if}</div>
+                <div><button class="btn btn-xs btn-primary wd85" onclick="window.location='__APP__/Finance/consumeRecord'">消费记录</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">     
+        <h2 class="f20">广告提醒 </h2>
+        <div class="cf">
+            <div></div>
+            <div class="w1 line60">
+                <span class="iconfont icon-timecj f60 orange"></span>
+            </div>
+            <div class="w2 f16 g6 line22" style="font-size:14px; padding-left:0px;width: 123px;">
+                <div>待审核：<span class="orange ml5"><a href="__APP__/AdvertisePlan/index/anchor/7" style="color:orange">{$verify}</a></span></div>
+                <div>审核驳回：<span class="orange ml5"><a href="__APP__/AdvertisePlan/index/anchor/8" style="color:orange">{$refuse}</a></span></div>
+                <div>待投放：<span class="orange ml5"><a href="__APP__/AdvertisePlan/index/anchor/1" style="color:orange">{$verified}</a></span></div>
+                <!-- <div>投放结束：<span class="orange ml5"><a href="__APP__/AdvertisePlan/index/anchor/3" style="color:orange">{$ending}</a></span></div> -->
+                <div>投放中：<span class="orange ml5"><a href="__APP__/AdvertisePlan/index/anchor/2" style="color:orange">{$working}</a></span></div>
+            </div>
+            <div class="w3 line30">
+                {if $can_add_campaign}<div class="mt25"><button class="btn btn-sm btn-warning wd135" onclick="window.location='__APP__/AdvertiseCampaign/addAdvertiseCampaign'">新建一个新的投放</button></div>{/if}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="testljj">
+</div>
+<!--右边主内容区-->
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="carousel slide" id="carousel2" style="min-height: 620px;">
+        <ol class="carousel-indicators">
+            <li data-slide-to="0" data-target="#carousel2"  class="active"></li>
+            <li data-slide-to="1" data-target="#carousel2"></li>
+            <li data-slide-to="2" data-target="#carousel2"></li>
+            {*}<li data-slide-to="3" data-target="#carousel2"></li>
+            <li data-slide-to="3" data-target="#carousel2"></li>{*}
+        </ol>
+            <div>
+                <!--时间报表-->
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <div class="ibox-tools"> 
+                        	<!-- <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a> 
+                        	<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fa fa-wrench"></i> </a>
+                            <a class="close-link"> <i class="fa fa-times"></i> </a> -->
+                        </div>
+                        <div id="current_title">
+                            <span class="f20 g9 slide-btn-1 poi" id="0">时间报表</span>
+                        	<span class="ml30 g9 slide-btn-1 poi" id="1">阶段堆积图</span>
+                        	<span class="ml30 g9 slide-btn-2 poi" id="2">渠道分析</span>
+                        	{*}<span class="ml30 g9 slide-btn-3 poi" id="3">转化分析</span>
+                        	<span class="ml30 g9 slide-btn-4 poi" id="3">受众分析</span>{*}
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        {include file="report/widget/report_common_header.html"}
+                        <form method="get" action="" id="{$current_report_special_arg}_form" autocomplete='off'>
+                        <input type="hidden" value="{$current_chart_default_show_key}" name="char_call_arg" id="call_char_call_arg"/>
+                		{$plan_condition}
+                		</form>
+                		<div class="carousel-inner">
+	                		<div class="item active" showtitle="时间报表" id="char_report">
+	                    		<div class="mt20" id="admin_report_sum_data"></div>
+	                    		<div class="form-inline mt20" id="admin_report_char_data"></div>
+	                    	</div>
+	                		<div class="item" showtitle="阶段堆积图" id="char_line_area">
+	                    		<div id="report_char_line_area_data" class="form-inline mt20"></div>
+	                    	</div>
+	                		<div class="item" showtitle="渠道分析" id="pie_report">
+	                    		<div id="report_char_dsp_pie_data" class="form-inline mt20"></div>
+	                    	</div>
+	                    	{*}
+	                		<div class="item" showtitle="转化分析" id="funnel_report">
+	                    		<div id="report_char_funnel_data" class="form-inline mt20"></div>
+	                    	</div>
+	                		<div class="item" showtitle="受众分析" id="bar_report">
+	                    		<div id="report_char_bar_data" class="form-inline mt20"></div>
+	                    	</div>
+	                    	{*}
+                    	</div>
+                    	
+                    </div>
+                </div>
+
+                <div class="carousel-caption"></div>
+            </div>
+        <a data-slide="prev" href="#carousel2" class="left fod carousel-control">
+            <span class="fa fa-angle-left"></span>
+        </a>
+        <a data-slide="next" href="#carousel2" class="right fod carousel-control">
+            <span class="fa fa-angle-right"></span>
+        </a>
+    </div>
+
+</div>
+<script type="text/javascript">
+$(function(){
+	// 点击三个按钮可以切换报表
+	$('#current_title span').click(function(){
+		var cid = Number($(this).attr('id'));
+		$('#carousel2').carousel(cid);
+	})
+	
+	$('#carousel2').on('slide.bs.carousel', function (e) {
+		var obj = $(e.relatedTarget);
+		var char_index = 0;
+		obj.parent().children().each(function(index, element){
+			if ($(this).attr('id') == obj.attr('id')) {
+				char_index = index;
+			}
+		});
+		var biger = $(e.relatedTarget).attr('showtitle');
+		$('#current_title span').removeClass('f20');
+		$('#current_title span').each(function(){
+			if ($(this).text() == biger) {
+				$(this).addClass('f20');
+			}		
+		});
+		call_report_by_id (char_index);
+	});
+});
+</script>
