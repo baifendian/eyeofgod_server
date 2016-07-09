@@ -1,0 +1,23 @@
+[INFO 2016-07-10 13:10:17,851 @ 19745] - 123
+[DEBUG 2016-07-10 13:19:05,720 @ 19834] - request.POST : <QueryDict: {u'mac': [u'test1']}>,pagename : toliet
+[DEBUG 2016-07-10 13:19:20,873 @ 19834] - request.POST : <QueryDict: {u'mac': [u'test1']}>,pagename : restroom
+[DEBUG 2016-07-10 13:50:08,943 @ 20142] - app_get_page  request.POST : <QueryDict: {u'mac': [u'BC65A95E-5F3B-4EE8-99D4-28973D0EB711']}>,pagename : overview
+[INFO 2016-07-10 13:50:08,948 @ 20142] - app_get_page  page : eogserver/registered.html
+[DEBUG 2016-07-10 13:50:18,247 @ 20142] - sensor_postdata  request.POST : <QueryDict: {u'pi_mark': [u'b8:27:eb:e5:19:c4'], u'sensor_id': [u'1'], u'timestamp': [u'1468101018'], u'sensor_type': [u'123456'], u'mark': [u'b8:27:eb:e5:19:c4_1'], u'state': [u'1']}>
+[INFO 2016-07-10 13:50:18,251 @ 20142] - sensor_postdata  retu_obj : {'msg': '', 'code': 1}
+[DEBUG 2016-07-10 13:50:20,272 @ 20142] - sensor_postdata  request.POST : <QueryDict: {u'pi_mark': [u'b8:27:eb:e5:19:c4'], u'sensor_id': [u'1'], u'timestamp': [u'1468101020'], u'sensor_type': [u'123456'], u'mark': [u'b8:27:eb:e5:19:c4_1'], u'state': [u'1']}>
+[INFO 2016-07-10 13:50:20,276 @ 20142] - sensor_postdata  retu_obj : {'msg': '', 'code': 1}
+[DEBUG 2016-07-10 13:50:22,302 @ 20142] - sensor_postdata  request.POST : <QueryDict: {u'pi_mark': [u'b8:27:eb:e5:19:c4'], u'sensor_id': [u'1'], u'timestamp': [u'1468101022'], u'sensor_type': [u'123456'], u'mark': [u'b8:27:eb:e5:19:c4_1'], u'state': [u'1']}>
+[INFO 2016-07-10 13:50:22,306 @ 20142] - sensor_postdata  retu_obj : {'msg': '', 'code': 1}
+[DEBUG 2016-07-10 13:50:24,332 @ 20142] - sensor_postdata  request.POST : <QueryDict: {u'pi_mark': [u'b8:27:eb:e5:19:c4'], u'sensor_id': [u'1'], u'timestamp': [u'1468101024'], u'sensor_type': [u'123456'], u'mark': [u'b8:27:eb:e5:19:c4_1'], u'state': [u'1']}>
+[INFO 2016-07-10 13:50:24,335 @ 20142] - sensor_postdata  retu_obj : {'msg': '', 'code': 1}
+[DEBUG 2016-07-10 13:50:37,283 @ 20142] - sensor_postdata  request.POST : <QueryDict: {u'pi_mark': [u'b8:27:eb:e5:19:c4'], u'sensor_id': [u'1'], u'timestamp': [u'1468101037'], u'sensor_type': [u'123456'], u'mark': [u'b8:27:eb:e5:19:c4_1'], u'state': [u'False']}>
+[DEBUG 2016-07-10 13:50:39,398 @ 20142] - sensor_postdata  request.POST : <QueryDict: {u'pi_mark': [u'b8:27:eb:e5:19:c4'], u'sensor_id': [u'1'], u'timestamp': [u'1468101039'], u'sensor_type': [u'123456'], u'mark': [u'b8:27:eb:e5:19:c4_1'], u'state': [u'False']}>
+[DEBUG 2016-07-10 13:51:33,269 @ 20169] - app_get_page  request.POST : <QueryDict: {u'mac': [u'BC65A95E-5F3B-4EE8-99D4-28973D0EB711']}>,pagename : overview
+[INFO 2016-07-10 13:51:33,275 @ 20169] - app_get_page  page : eogserver/registered.html
+[DEBUG 2016-07-10 13:56:53,509 @ 20183] - app_get_page  request.POST : <QueryDict: {u'mac': [u'BC65A95E-5F3B-4EE8-99D4-28973D0EB711']}>,pagename : overview
+[INFO 2016-07-10 13:56:53,516 @ 20183] - app_get_page  page : eogserver/registered.html
+[DEBUG 2016-07-10 13:57:11,608 @ 20183] - app_get_page  request.POST : <QueryDict: {u'mac': [u'BC65A95E-5F3B-4EE8-99D4-28973D0EB711']}>,pagename : registered
+[INFO 2016-07-10 13:57:11,610 @ 20183] - app_get_page  page : eogserver/registered.html
+[DEBUG 2016-07-10 13:59:27,582 @ 20183] - app_get_page  request.POST : <QueryDict: {u'mac': [u'BC65A95E-5F3B-4EE8-99D4-28973D0EB711']}>,pagename : registered
+[INFO 2016-07-10 13:59:27,584 @ 20183] - app_get_page  page : eogserver/registered.html
