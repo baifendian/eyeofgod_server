@@ -5,8 +5,9 @@ var myData = {
   "code": 1,
   "data": {
     "sex": 1,
-    "location": "f",
-    "advanced": "adress"
+    "location": "F",
+    "advanced": 0,
+    "mac": "test1"
   }
 }
 
@@ -24,28 +25,28 @@ if (myData.code === 1) {
   }
   
   //工位
-  if (myData.data.location === 'a') {
+  if (myData.data.location === 'A') {
     $('.setting-station .fa').eq(0).removeClass('fa-circle-o');
     $('.setting-station .fa').eq(0).addClass('fa-check-circle-o');
-  } else if (myData.data.location === 'b') {
+  } else if (myData.data.location === 'B') {
     $('.setting-station .fa').eq(1).removeClass('fa-circle-o');
     $('.setting-station .fa').eq(1).addClass('fa-check-circle-o');
-  } else if (myData.data.location === 'c') {
+  } else if (myData.data.location === 'C') {
     $('.setting-station .fa').eq(2).removeClass('fa-circle-o');
     $('.setting-station .fa').eq(2).addClass('fa-check-circle-o');
-  } else if (myData.data.location === 'd') {
+  } else if (myData.data.location === 'D') {
     $('.setting-station .fa').eq(3).removeClass('fa-circle-o');
     $('.setting-station .fa').eq(3).addClass('fa-check-circle-o');
-  } else if (myData.data.location === 'e') {
+  } else if (myData.data.location === 'E') {
     $('.setting-station .fa').eq(4).removeClass('fa-circle-o');
     $('.setting-station .fa').eq(4).addClass('fa-check-circle-o');
-  } else if (myData.data.location === 'f') {
+  } else if (myData.data.location === 'F') {
     $('.setting-station .fa').eq(5).removeClass('fa-circle-o');
     $('.setting-station .fa').eq(5).addClass('fa-check-circle-o');
   }
   
   //高级设置
-  if (myData.data.advanced === 'adress') {
+  if (myData.data.advanced === 0) {
     $('.setting-priority .fa').eq(0).removeClass('fa-circle-o');
     $('.setting-priority .fa').eq(0).addClass('fa-check-circle-o');
   } else {

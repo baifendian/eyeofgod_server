@@ -28,11 +28,11 @@
         </div>
       </div>
     </div>
-    <div class="restroom-men restroom-show">
-      <div class="toliet-con-box">
+    <div class="restroom-male restroom-show">
+      <div class="toliet-con-box toliet-con-notbusy">
         <div class="toliet-remind-info">
-          <p>男已有N人添加提醒</p>
-          <p>预计3min有空闲</p>
+          <!--<p>男已有N人添加提醒</p>
+          <p>预计3min有空闲</p>-->
           <div class="toliet-remind-btn">提醒我</div>
         </div>
         <div class="toliet-area">
@@ -44,24 +44,7 @@
               <th>状态</th>
               <th>操作</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td width="125"><input disabled="disabled" class="table-remind-btn table-remind-btn-disabled" onclick="singleRemind(this, this.value, id)" type="button" value="提醒我" /></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>占用</td>
-              <td width="125"><input class="table-remind-btn" onclick="singleRemind(this, this.value, id)" type="button" value="提醒我" /></td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td width="125"><input class="table-remind-btn" onclick="singleRemind(this, this.value, id)" type="button" value="提醒我" /></td>
-            </tr>
+           
           </table>
         </div>
         <div class="toliet-area">
@@ -73,30 +56,13 @@
               <th>状态</th>
               <th>操作</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td width="125"><input class="table-remind-btn" onclick="singleRemind(this, this.value, id)" type="button" value="提醒我" /></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>占用</td>
-              <td width="125"><input class="table-remind-btn" onclick="singleRemind(this, this.value, id)" type="button" value="提醒我" /></td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td width="125"><input class="table-remind-btn" onclick="singleRemind(this, this.value, id)" type="button" value="提醒我" /></td>
-            </tr>
+            
           </table>
         </div>
       </div>
-      <div class="toliet-con-box">
+      <div class="toliet-con-box toliet-con-notbusy">
         <div class="toliet-remind-info">
-          <span>共10间，闲3间</span>
+          <span id="menNotbusy">共7间，闲3间</span>
         </div>
         <div class="toliet-area">
           <h3>A区</h3>
@@ -106,21 +72,7 @@
               <th>类型</th>
               <th>状态</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>空闲</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>空闲</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>占用</td>
-            </tr>
+            
           </table>
         </div>
         <div class="toliet-area">
@@ -131,31 +83,17 @@
               <th>类型</th>
               <th>状态</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>空闲</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>占用</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>空闲</td>
-            </tr>
+           
           </table>
         </div>
       </div>
     </div>
     <div class="restroom-female">
-      <div class="toliet-con-box">
+      <div class="toliet-con-box toliet-con-notbusy">
         <div class="toliet-remind-info">
-          <p>女已有N人添加提醒</p>
-          <p>预计3min有空闲</p>
-          <div class="toliet-remind-btn">提醒我</div>
+          <!--<p>男已有N人添加提醒</p>
+          <p>预计3min有空闲</p>-->
+          <div class="toliet-remind-btn">提醒我女</div>
         </div>
         <div class="toliet-area">
           <h3>A区</h3>
@@ -166,24 +104,7 @@
               <th>状态</th>
               <th>操作</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td class="table-remind-btn">提醒我</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>占用</td>
-              <td class="table-remind-btn">提醒我</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td class="table-remind-btn">提醒我</td>
-            </tr>
+            
           </table>
         </div>
         <div class="toliet-area">
@@ -195,30 +116,13 @@
               <th>状态</th>
               <th>操作</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td class="table-remind-btn">提醒我</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>占用</td>
-              <td class="table-remind-btn">提醒我</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>占用</td>
-              <td class="table-remind-btn">提醒我</td>
-            </tr>
+            
           </table>
         </div>
       </div>
-      <div class="toliet-con-box">
+      <div class="toliet-con-box toliet-con-notbusy">
         <div class="toliet-remind-info">
-          <span>女共10间，闲3间</span>
+          <span id="womenNotbusy">共10间，闲3间</span>
         </div>
         <div class="toliet-area">
           <h3>A区</h3>
@@ -228,21 +132,7 @@
               <th>类型</th>
               <th>状态</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>空闲</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>空闲</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>占用</td>
-            </tr>
+            
           </table>
         </div>
         <div class="toliet-area">
@@ -253,21 +143,7 @@
               <th>类型</th>
               <th>状态</th>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>坐便</td>
-              <td>空闲</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>蹲便</td>
-              <td>占用</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>坐便</td>
-              <td>空闲</td>
-            </tr>
+           
           </table>
         </div>
       </div>
