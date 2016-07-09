@@ -157,8 +157,27 @@ def app_getstates(request):
 @csrf_exempt
 @return_http_json
 def app_subscription(request):
-    retu_obj = generate_success()
-    return retu_obj
+    keys = ['mac','sourceid','subscription']
+    retu_dict = check_keys( request.POST,keys )
+    if retu_dict['code'] != 1:
+        return generate_failure( retu_dict['msg'] )
+    user_info = get_user_info_by_mac(retu_dict['data']['mac'])
+    if user_info == None:
+        return generate_failure( u'传入的mac无效' )
+    querys = Source.objects.filter( id=retu_dict['data']['sourceid'] )
+    if len(querys) == 0:
+        return generate_failure( u'传入的sourceid不存在' )
+    r = Remind( userid = user_info['id'],
+                sourceid = retu_dict['data']['sourceid'],
+                state = retu_dict['data']['subscription'],
+                createtime = generate_cur_time_stamp() )
+    r.save()
+    return generate_success()
+
+
+
+
+
 
 @csrf_exempt
 def app_page_online(request):
@@ -240,7 +259,10 @@ def find_source_type_and_user_connection(user_id,text_id):
 
 @check_user_registered
 def retu_page_overview(user_info):
-    pass        
+    data = []
+    for index in query_all_dict_table_items().keys():
+        data += find_source_type_and_user_connection(user_info['id'],int(index))
+    return ('eogserver/overview.html',{'data':data})
 
 @check_user_registered
 def retu_page_toliet(user_info):
