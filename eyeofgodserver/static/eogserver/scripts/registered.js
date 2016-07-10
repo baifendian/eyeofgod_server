@@ -13,15 +13,13 @@
 
 var myData = {};
 
-window.location = '?callobjectC&mac';
-function getDeviceToken(str) {
-  
+
   $.ajax({
     type:"post",
     url:"http://192.168.1.140:9000/app/info/registered",
     async:true,
     data: {
-      "mac": str
+      "mac": window.
     },
     success: function(data) {
       console.log(data);
@@ -31,7 +29,7 @@ function getDeviceToken(str) {
       
     }
   });
-}
+
 
 
 
@@ -118,5 +116,22 @@ $('.setting-priority p').on('click', function() {
 });
 
 $('#sureBtn').on('click', function() {
-  window.location.dismiss = '?callobjectC&dismiss';
+  $.ajax({
+  	type:"post",
+  	url:"http://192.168.1.140:9000/app/register",
+  	async:true,
+  	data: {
+  	  "mac": window.mac,
+  	  "token": window.token,
+  	  "sex": 1,
+  	  "location": "A",
+  	  "advanced": 1
+  	},
+  	success: function(data) {
+  	  console.log(data);
+  	  window.location.href = '?callobjectC&pushViewController&overview.html';
+  	}
+  });
+  
 });
+                                                            
