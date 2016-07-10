@@ -22,7 +22,7 @@ LOGGING = {
         'file': { 
             'level':'DEBUG', 
             'class':'logging.FileHandler', 
-            'formatter': 'online', 
+            'formatter': 'complete', 
             'filename' : os.path.join(cur_dir, 'logs/eogserver.log').replace('{}','/') 
         }, 
     }, 
