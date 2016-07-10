@@ -19,8 +19,8 @@ from eogserver.models import User,Source,Remind,Event,Dict
 
 # 一个装饰器，将原函数返回的json封装成response对象
 def return_http_json(func):
-    def wrapper( data ):
-        d = func(data)
+    def wrapper( *arg1,**arg2 ):
+        d = func( *arg1,**arg2 )
         return HttpResponse( json.dumps(d) )
     return wrapper
 
@@ -57,7 +57,17 @@ def query_all_dict_table_items():
         data[item.textid] = item.text
     return data
 
+def get_textid_userfriendlystr():
+    return {
+        1:'toliet',2:'toliet',3:'shower',4:'toliet',5:'toliet',6:'shower',
+        7:'eggchair',8:'restroom',9:'restroom'
+    }
 
+def get_textid_sex():
+    return {
+        1:1,2:1,3:1,8:1,
+        4:0,5:0,6:0,9:0,
+    }
 
 
 
@@ -89,11 +99,171 @@ def sensor_postdata(request):
 def app_get_page(request,pagename):
     allowed_page_names = [ 'overview','registered','toliet',
                            'shower','eggchair','restroom']
-    if pagename in allowed_page_names:
-        u = 'eogserver/%s.html' % pagename
-        return render_to_response(u,{},context_instance=RequestContext(request))
+    if pagename not in allowed_page_names:
+        return HttpResponse(json.dumps(generate_failure(u'找不到相关页面：%s' % pagename)))
+
+    retu_dict = check_keys(request.POST,['mac'])
+    # 测试代码
+    #retu_dict = generate_success( data={'mac':'test2'} )
+    if retu_dict['code'] == 0:
+        return HttpResponse(json.dumps( generate_failure(retu_dict['msg']) ))
+    if get_user_info_by_mac(retu_dict['data']['mac']) == None:
+        u = 'eogserver/registered.html'
     else:
-        return HttpResponse(json.dumps(generate_failure(u'找不到相关页面：pagename')))
+        u = 'eogserver/%s.html' % pagename
+    return render_to_response(u,{},context_instance=RequestContext(request))
+
+@csrf_exempt
+@return_http_json
+def app_get_state(request,pagename):
+    allowed_page_names = {
+                           'overview':app_get_overview,
+                           'toliet':app_get_toliet,
+                           'shower':app_get_shower,
+                           'eggchair':app_get_eggchair,
+                           'restroom':app_get_restroom
+                         }
+    if pagename not in allowed_page_names.keys():
+        return generate_failure(u'找不到相关页面：%s' % pagename)
+
+    retu_dict = check_keys(request.POST,['mac'])
+    # 测试代码
+    retu_dict = generate_success( data={'mac':'test1'} )
+    if retu_dict['code'] == 0:
+        return generate_failure(retu_dict['msg'])
+    user_info = get_user_info_by_mac(retu_dict['data']['mac'])
+    if user_info == None:
+        return generate_failure(u'传入的mac无效')
+    return allowed_page_names[pagename](user_info)   
+
+def app_get_overview(user_info):
+    textid_userfriendlystr = get_textid_userfriendlystr()
+    retu_obj = {}
+    for index in textid_userfriendlystr.keys():
+        key = textid_userfriendlystr[int(index)]
+        if retu_obj.get(key) == None:
+            retu_obj[key] = { 'state':1,'detail':{} }
+        for item in find_source_type_and_user_connection( user_info['id'],int(index) ):
+            if item['state'] == 0:
+                continue
+
+            location = item['location']
+            if retu_obj[key]['detail'].get(location) == None:
+                retu_obj[key]['detail'][location] = 0
+            retu_obj[key]['detail'][location] += 1
+    for key in retu_obj:
+        if len(retu_obj[key]['detail'].keys()) == 0:
+            retu_obj[key]['state'] = 0
+    return generate_success( data=retu_obj )
+
+def app_get_toliet(user_info):
+    return app_get_toliet_shower_eggchair(user_info,'toliet')
+
+def app_get_shower(user_info):
+    return app_get_toliet_shower_eggchair(user_info,'shower')
+
+def app_get_restroom(user_info):
+    return app_get_toliet_shower_eggchair(user_info,'restroom')
+
+def app_get_toliet_shower_eggchair(user_info,text_type_str):
+    retu_obj = { 
+        'sex':user_info['sex'],
+        1:{},                       # 男
+        0:{}                        # 女
+    }   
+    for textid,value in get_textid_userfriendlystr().items():
+        if value != text_type_str:
+            continue
+        for item in find_source_type_and_user_connection( user_info['id'],textid ):
+            sex = get_textid_sex()[item['textid']]
+            location = item['location']
+            if retu_obj[sex].get(location) == None:
+                retu_obj[sex][location] = []
+            retu_obj[sex][location].append(item)
+    return generate_success(data=retu_obj)
+
+def app_get_eggchair(user_info):
+    retu_obj = {}
+    for textid,value in get_textid_userfriendlystr().items():
+        if value != 'toliet':
+            continue
+        for item in find_source_type_and_user_connection( user_info['id'],textid ):
+            location = item['location']
+            if retu_obj.get(location) == None:
+                retu_obj[location] = []
+            retu_obj[location].append( item )
+    return generate_success( data=retu_obj )
+
+
+@csrf_exempt
+def app_get_registeredinfo(request):
+    retu_dict = check_keys(request.POST,['mac'])
+    # 测试代码
+    retu_dict = generate_success( data={'mac':'test1'} )
+    if retu_dict['code'] == 0:
+        return HttpResponse(json.dumps( generate_failure(retu_dict['msg']) ))
+    user_info = get_user_info_by_mac(retu_dict['data']['mac'])
+    if user_info == None:
+        return HttpResponse(json.dumps( generate_failure(u'传入的mac无效') ))
+    else:
+        return HttpResponse(json.dumps( generate_success(data=user_info) ))
+
+def get_user_info_by_mac(mac):
+    querys = User.objects.filter(mac=mac)
+    if len(querys) == 0:
+        return None
+    else:
+        q = querys[0]
+        data = {
+            'id':q.id,
+            'sex':q.sex,
+            'location':q.location,
+            'advanced':q.advanced,
+            'mac':q.mac,
+            'token':q.token,
+            'createtime':q.createtime,
+            'modifytime':q.modifytime
+        }
+        return data
+
+# 获取某一个资源的当前状态
+def find_source_type_and_user_connection(user_id,text_id):
+    info_dict = query_all_dict_table_items()
+    query = Source.objects.filter( textid = text_id )
+    data = []
+    for item in query:
+        d = { 
+            'sourceid':item.id,
+            'textid':item.textid,
+            'text':info_dict[item.textid],
+            'location':item.location,
+            'state':item.state
+        }   
+        if len(Remind.objects.filter( userid=user_id,sourceid=d['sourceid'],state=1 )) == 0:
+            s = 0 
+        else:
+            s = 1 
+        d['subscription'] = s 
+        data.append(d)
+    return data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @csrf_exempt
 @return_http_json
@@ -214,23 +384,6 @@ def te(request):
     page,obj = func(user_info)
     return render_to_response(page,obj,context_instance=RequestContext(request))
 
-def get_user_info_by_mac(mac):
-    querys = User.objects.filter(mac=mac)
-    if len(querys) == 0:
-        return None
-    else:
-        q = querys[0]    
-        data = {
-            'id':q.id,
-            'sex':q.sex,
-            'location':q.location,
-            'advanced':q.advanced,
-            'mac':q.mac,
-            'token':q.token,
-            'createtime':q.createtime,
-            'modifytime':q.modifytime
-        }
-        return data
 
 def retu_page_register(user_info):
     d = [user_info] if user_info else []
@@ -244,24 +397,6 @@ def check_user_registered(func_obj):
             return func_obj(user_info)
     return wrapper
 
-def find_source_type_and_user_connection(user_id,text_id):
-    query = Source.objects.filter( textid = text_id )
-    data = []
-    for item in query:
-        d = {
-            'id':item.id,
-            'textid':item.textid,
-            'location':item.location,
-            'mark':item.mark,
-            'state':item.state
-        }
-        if len(Remind.objects.filter( userid=user_id,sourceid=d['id'],state=1 )) == 0:
-            s = 0
-        else:
-            s = 1
-        d['subscription'] = s
-        data.append(d)
-    return data
 
 
 @check_user_registered

@@ -11,10 +11,11 @@ urlpatterns = patterns('',
 
     url(r'^app/register$', views.app_register),
     url(r'^app/getregisterinfo$', views.app_getregisterinfo),
-    url(r'^app/getstates$', views.app_getstates),
     url(r'^app/subscription$', views.app_subscription),
-    url(r'^app/page/(?P<pagename>[a-zA-Z]{1,10}).html$', views.app_get_page),
 
+    url(r'^app/page/(?P<pagename>[a-zA-Z]{1,10}).html$', views.app_get_page),
+    url(r'^app/state/(?P<pagename>[a-zA-Z]{1,10})$', views.app_get_state),
+    url(r'^app/info/registered',views.app_get_registeredinfo)
 )
 
 
