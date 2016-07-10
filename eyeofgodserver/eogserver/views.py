@@ -80,6 +80,7 @@ def get_textid_sex():
 def sensor_postdata(request):
     keys = ['mark','state','timestamp']
     retu_dict = check_keys(request.POST,keys)
+    print retu_dict
     if retu_dict['code'] != 1:
         retu_obj = generate_failure( retu_dict['msg'] )
     else:
@@ -104,13 +105,14 @@ def app_get_page(request,pagename):
 
     retu_dict = check_keys(request.POST,['mac'])
     # 测试代码
-    #retu_dict = generate_success( data={'mac':'test2'} )
+    retu_dict = generate_success( data={'mac':'test2'} )
     if retu_dict['code'] == 0:
         return HttpResponse(json.dumps( generate_failure(retu_dict['msg']) ))
     if get_user_info_by_mac(retu_dict['data']['mac']) == None:
         u = 'eogserver/registered.html'
     else:
         u = 'eogserver/%s.html' % pagename
+    print u
     return render_to_response(u,{},context_instance=RequestContext(request))
 
 @csrf_exempt
@@ -127,8 +129,10 @@ def app_get_state(request,pagename):
         return generate_failure(u'找不到相关页面：%s' % pagename)
 
     retu_dict = check_keys(request.POST,['mac'])
+    print request.POST
+    print retu_dict
     # 测试代码
-    retu_dict = generate_success( data={'mac':'test1'} )
+    #retu_dict = generate_success( data={'mac':'test1'} )
     if retu_dict['code'] == 0:
         return generate_failure(retu_dict['msg'])
     user_info = get_user_info_by_mac(retu_dict['data']['mac'])
@@ -142,17 +146,18 @@ def app_get_overview(user_info):
     for index in textid_userfriendlystr.keys():
         key = textid_userfriendlystr[int(index)]
         if retu_obj.get(key) == None:
-            retu_obj[key] = { 'state':1,'detail':{} }
+            retu_obj[key] = { 'state':1,'gather':{},'detail':[] }
         for item in find_source_type_and_user_connection( user_info['id'],int(index) ):
+            retu_obj[key]['detail'].append(item)
             if item['state'] == 0:
                 continue
 
             location = item['location']
-            if retu_obj[key]['detail'].get(location) == None:
-                retu_obj[key]['detail'][location] = 0
-            retu_obj[key]['detail'][location] += 1
+            if retu_obj[key]['gather'].get(location) == None:
+                retu_obj[key]['gather'][location] = 0
+            retu_obj[key]['gather'][location] += 1
     for key in retu_obj:
-        if len(retu_obj[key]['detail'].keys()) == 0:
+        if len(retu_obj[key]['gather'].keys()) == 0:
             retu_obj[key]['state'] = 0
     return generate_success( data=retu_obj )
 
@@ -199,7 +204,7 @@ def app_get_eggchair(user_info):
 def app_get_registeredinfo(request):
     retu_dict = check_keys(request.POST,['mac'])
     # 测试代码
-    retu_dict = generate_success( data={'mac':'test1'} )
+    #retu_dict = generate_success( data={'mac':'test1'} )
     if retu_dict['code'] == 0:
         return HttpResponse(json.dumps( generate_failure(retu_dict['msg']) ))
     user_info = get_user_info_by_mac(retu_dict['data']['mac'])
@@ -239,31 +244,13 @@ def find_source_type_and_user_connection(user_id,text_id):
             'location':item.location,
             'state':item.state
         }   
-        if len(Remind.objects.filter( userid=user_id,sourceid=d['sourceid'],state=1 )) == 0:
+        if len(Remind.objects.filter( userid=user_id,sourceid=d['sourceid'] )) == 0:
             s = 0 
         else:
-            s = 1 
+            s = 1
         d['subscription'] = s 
         data.append(d)
     return data
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @csrf_exempt
 @return_http_json
@@ -300,40 +287,6 @@ def app_register(request):
 
 @csrf_exempt
 @return_http_json
-def app_getregisterinfo(request):
-    keys = ['mac']
-    retu_dict = check_keys( request.POST,keys )
-    if retu_dict['code'] != 1:
-        return generate_failure( retu_dict['msg'] )
-
-    user_info = get_user_info_by_mac(retu_dict['data']['mac'])
-    if user_info:
-        return generate_failure(data=user_info)
-    else:
-        return generate_failure(u'传入的mac无效')
-
-@csrf_exempt
-@return_http_json
-def app_getstates(request):
-    textid = request.POST.get('textid')
-    if textid == None:
-        querys = Source.objects.all()
-    else:
-        querys = Source.objects.filter(textid = textid)
-    dict_table_data = query_all_dict_table_items()
-    data = []
-    for item in querys:
-        data.append({
-            'textid':item.textid,
-            'text':dict_table_data[item.textid],
-            'location':item.location,
-            'state':item.state,
-        })
-    retu_obj = generate_success(data=data)
-    return retu_obj
-
-@csrf_exempt
-@return_http_json
 def app_subscription(request):
     keys = ['mac','sourceid','subscription']
     retu_dict = check_keys( request.POST,keys )
@@ -342,14 +295,22 @@ def app_subscription(request):
     user_info = get_user_info_by_mac(retu_dict['data']['mac'])
     if user_info == None:
         return generate_failure( u'传入的mac无效' )
-    querys = Source.objects.filter( id=retu_dict['data']['sourceid'] )
-    if len(querys) == 0:
-        return generate_failure( u'传入的sourceid不存在' )
-    r = Remind( userid = user_info['id'],
-                sourceid = retu_dict['data']['sourceid'],
-                state = retu_dict['data']['subscription'],
-                createtime = generate_cur_time_stamp() )
-    r.save()
+
+    cur_time = generate_cur_time_stamp()
+    for sid in retu_dict['data']['sourceid']:
+        querys = Source.objects.filter( id=sid )
+        if len(querys) == 0:
+            continue
+        querys = Remind.objects.filter( userid=user_info['id'],sourceid=sid )
+        if len(querys) == 0 and retu_dict['data']['subscription'] == 1:
+            r = Remind( userid = user_info['id'],
+                        sourceid = retu_dict['data']['sourceid'],
+                        state = -1,                                 # reverse
+                        createtime = cur_time )
+            r.save()
+        elif len(querys) != 0 and retu_dict['data']['subscription'] == 0:
+            querys.delete()
+
     return generate_success()
 
 
@@ -358,7 +319,7 @@ def app_subscription(request):
 
 
 
-
+'''
 def te(request):
     keys = ['mac','childurl']
     retu_dict = check_keys( request.POST,keys )
@@ -472,9 +433,6 @@ def test(request):
 
 
 
-
-
-'''
 @csrf_exempt
 def test(request):
     # this is only for test

@@ -4,13 +4,10 @@ from django.conf.urls import patterns, url
 from eogserver import views
 
 urlpatterns = patterns('',
-    url(r'^test/$', views.test ),
-    url(r'^test2/$', views.test2 ),
 
     url(r'^sensor/postdata',views.sensor_postdata),
 
     url(r'^app/register$', views.app_register),
-    url(r'^app/getregisterinfo$', views.app_getregisterinfo),
     url(r'^app/subscription$', views.app_subscription),
 
     url(r'^app/page/(?P<pagename>[a-zA-Z]{1,10}).html$', views.app_get_page),
