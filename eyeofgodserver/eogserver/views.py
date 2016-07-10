@@ -85,7 +85,15 @@ def sensor_postdata(request):
         retu_obj = generate_success()
     return retu_obj
 
-
+@csrf_exempt
+def app_get_page(request,pagename):
+    allowed_page_names = [ 'overview','registered','toliet',
+                           'shower','eggchair','restroom']
+    if pagename in allowed_page_names:
+        u = 'eogserver/%s.html' % pagename
+        return render_to_response(u,{},context_instance=RequestContext(request))
+    else:
+        return HttpResponse(json.dumps(generate_failure(u'找不到相关页面：pagename')))
 
 @csrf_exempt
 @return_http_json
@@ -179,8 +187,9 @@ def app_subscription(request):
 
 
 
-@csrf_exempt
-def app_page_online(request):
+
+
+def te(request):
     keys = ['mac','childurl']
     retu_dict = check_keys( request.POST,keys )
     if retu_dict['code'] != 1:
