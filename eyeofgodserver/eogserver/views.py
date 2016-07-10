@@ -1,6 +1,8 @@
 # encoding:utf-8
 
-import json,time
+import json
+import time
+import logging
 
 from django.utils import timezone
 from django.shortcuts import render
@@ -13,8 +15,9 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 from eogserver.models import User,Source,Remind,Event,Dict
+from eogserver.logconfig import LOGGING
 
-
+logging.config.dictConfig( LOGGING )
 
 
 # 一个装饰器，将原函数返回的json封装成response对象
@@ -78,9 +81,9 @@ def get_textid_sex():
 @csrf_exempt
 @return_http_json
 def sensor_postdata(request):
+    logging.debug('sensor_postdata  request.POST : %s' % request.POST)
     keys = ['mark','state','timestamp']
     retu_dict = check_keys(request.POST,keys)
-    print retu_dict
     if retu_dict['code'] != 1:
         retu_obj = generate_failure( retu_dict['msg'] )
     else:
@@ -94,30 +97,35 @@ def sensor_postdata(request):
                       info = str(info_dict))
         event.save() 
         retu_obj = generate_success()
+    logging.info( 'sensor_postdata  retu_obj : %s' % retu_obj )
     return retu_obj
 
 @csrf_exempt
 def app_get_page(request,pagename):
+    logging.debug('app_get_page  request.POST : %s,pagename : %s' % (request.POST,pagename))
     allowed_page_names = [ 'overview','registered','toliet',
                            'shower','eggchair','restroom']
     if pagename not in allowed_page_names:
+        logging.error( 'app_get_page  cannot find page : %s ' % pagename )
         return HttpResponse(json.dumps(generate_failure(u'找不到相关页面：%s' % pagename)))
 
     retu_dict = check_keys(request.POST,['mac'])
     # 测试代码
-    retu_dict = generate_success( data={'mac':'test2'} )
+    #retu_dict = generate_success( data={'mac':'test2'} )
     if retu_dict['code'] == 0:
+        logging.error( 'app_get_page  retu_dict : %s' % retu_dict )
         return HttpResponse(json.dumps( generate_failure(retu_dict['msg']) ))
     if get_user_info_by_mac(retu_dict['data']['mac']) == None:
         u = 'eogserver/registered.html'
     else:
         u = 'eogserver/%s.html' % pagename
-    print u
+    logging.info( 'app_get_page  page : %s' % u )
     return render_to_response(u,{},context_instance=RequestContext(request))
 
 @csrf_exempt
 @return_http_json
 def app_get_state(request,pagename):
+    logging.debug( 'app_get_state  request.POST : %s,pagename : %s' % (request.POST,pagename) )
     allowed_page_names = {
                            'overview':app_get_overview,
                            'toliet':app_get_toliet,
@@ -126,21 +134,24 @@ def app_get_state(request,pagename):
                            'restroom':app_get_restroom
                          }
     if pagename not in allowed_page_names.keys():
+        logging.error( 'app_get_state  cannot find page : %s' % pagename )
         return generate_failure(u'找不到相关页面：%s' % pagename)
 
     retu_dict = check_keys(request.POST,['mac'])
-    print request.POST
-    print retu_dict
     # 测试代码
     #retu_dict = generate_success( data={'mac':'test1'} )
     if retu_dict['code'] == 0:
+        logging.error( 'app_get_state  retu_dict : %s' % retu_dict )
         return generate_failure(retu_dict['msg'])
     user_info = get_user_info_by_mac(retu_dict['data']['mac'])
     if user_info == None:
+        logging.error( 'app_get_state  invalid mac : %s' % retu_dict['data']['mac'] )
         return generate_failure(u'传入的mac无效')
+    logging.info( 'app_get_state  call page : %s ,user_info : %s' % (pagename,user_info) )
     return allowed_page_names[pagename](user_info)   
 
 def app_get_overview(user_info):
+    logging.debug( 'call app_get_overview with user_info : %s' % user_info )
     textid_userfriendlystr = get_textid_userfriendlystr()
     retu_obj = {}
     for index in textid_userfriendlystr.keys():
@@ -159,6 +170,8 @@ def app_get_overview(user_info):
     for key in retu_obj:
         if len(retu_obj[key]['gather'].keys()) == 0:
             retu_obj[key]['state'] = 0
+    logging.debug( 'call app_get_overview get data : %s' % retu_obj )
+    logging.info( 'call app_get_overview success ' )
     return generate_success( data=retu_obj )
 
 def app_get_toliet(user_info):
@@ -171,6 +184,7 @@ def app_get_restroom(user_info):
     return app_get_toliet_shower_eggchair(user_info,'restroom')
 
 def app_get_toliet_shower_eggchair(user_info,text_type_str):
+    logging.debug('call app_get_%s with user_info : %s' % (text_type_str,user_info))
     retu_obj = { 
         'sex':user_info['sex'],
         1:{},                       # 男
@@ -185,9 +199,12 @@ def app_get_toliet_shower_eggchair(user_info,text_type_str):
             if retu_obj[sex].get(location) == None:
                 retu_obj[sex][location] = []
             retu_obj[sex][location].append(item)
+    logging.debug( 'call app_get_%s get data : %s' % ( text_type_str,retu_obj ) )
+    logging.info( 'call app_get_%s success' % text_type_str )
     return generate_success(data=retu_obj)
 
 def app_get_eggchair(user_info):
+    logging.debug( 'call app_get_eggchair with user_info : %s' % user_info )
     retu_obj = {}
     for textid,value in get_textid_userfriendlystr().items():
         if value != 'toliet':
@@ -197,20 +214,27 @@ def app_get_eggchair(user_info):
             if retu_obj.get(location) == None:
                 retu_obj[location] = []
             retu_obj[location].append( item )
+    logging.debug( 'call app_get_eggchair get data : %s' % retu_obj )
+    logging.info( 'call app_get_eggchair success' )
     return generate_success( data=retu_obj )
 
 
 @csrf_exempt
 def app_get_registeredinfo(request):
+    logging.debug( 'app_get_registeredinfo request.POST : %s' % request.POST )
     retu_dict = check_keys(request.POST,['mac'])
     # 测试代码
     #retu_dict = generate_success( data={'mac':'test1'} )
     if retu_dict['code'] == 0:
+        logging.error( 'app_get_registeredinfo cannot find mac' )
         return HttpResponse(json.dumps( generate_failure(retu_dict['msg']) ))
     user_info = get_user_info_by_mac(retu_dict['data']['mac'])
     if user_info == None:
+        logging.error( 'app_get_registeredinfo input mac is not valid' )
         return HttpResponse(json.dumps( generate_failure(u'传入的mac无效') ))
     else:
+        logging.debug( 'app_get_registeredinfo return user_info' )
+        logging.info( 'app_get_registeredinfo  success' )
         return HttpResponse(json.dumps( generate_success(data=user_info) ))
 
 def get_user_info_by_mac(mac):
@@ -255,9 +279,11 @@ def find_source_type_and_user_connection(user_id,text_id):
 @csrf_exempt
 @return_http_json
 def app_register(request):
+    logging.debug( 'app_register  request.POST : %s' % request.POST )
     keys = ['sex','location','mac','advanced','token']
     retu_dict = check_keys( request.POST,keys )
     if retu_dict['code'] != 1:
+        logging.error( 'app_register  retu_dict : %s' % retu_dict )
         retu_obj = generate_failure( retu_dict['msg'] )
     else:
         querys = User.objects.filter( mac = retu_dict['data']['mac'] )
@@ -273,6 +299,7 @@ def app_register(request):
                 createtime = cur_time,
                 modifytime = cur_time
             )
+            logging.debug( 'app_register  create new user obj' )
         else:
             u = querys[0]
             u.sex = retu_dict['data']['sex']
@@ -281,19 +308,24 @@ def app_register(request):
             u.mac = retu_dict['data']['mac']
             u.token = retu_dict['data']['token']
             u.modifytime = cur_time
+            logging.debug( 'app_register  modify user config' )
         u.save()
         retu_obj = generate_success()
+        logging.info( 'app_register  update or create user %s' % u )
     return retu_obj
 
 @csrf_exempt
 @return_http_json
 def app_subscription(request):
+    logging.debug( 'app_subscription  request.POST : %s' % request.POST )
     keys = ['mac','sourceid','subscription']
     retu_dict = check_keys( request.POST,keys )
     if retu_dict['code'] != 1:
+        logging.error( 'app_subscription  retu_dict : %s' % retu_dict )
         return generate_failure( retu_dict['msg'] )
     user_info = get_user_info_by_mac(retu_dict['data']['mac'])
     if user_info == None:
+        logging.error( 'app_subscription  invalid mac : %s' % mac )
         return generate_failure( u'传入的mac无效' )
 
     cur_time = generate_cur_time_stamp()
@@ -303,14 +335,16 @@ def app_subscription(request):
             continue
         querys = Remind.objects.filter( userid=user_info['id'],sourceid=sid )
         if len(querys) == 0 and retu_dict['data']['subscription'] == 1:
+            logging.debug( 'app_subscription  create new remind obj' )
             r = Remind( userid = user_info['id'],
                         sourceid = retu_dict['data']['sourceid'],
                         state = -1,                                 # reverse
                         createtime = cur_time )
             r.save()
         elif len(querys) != 0 and retu_dict['data']['subscription'] == 0:
+            logging.debug( 'app_subscription  delete remind obj : %s' % querys[0] )
             querys.delete()
-
+    logging.info('app_subscription success')
     return generate_success()
 
 
