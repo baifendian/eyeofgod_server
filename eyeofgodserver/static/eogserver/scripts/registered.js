@@ -129,7 +129,7 @@ $('#sureBtn').on('click', function() {
   	},
   	success: function(data) {
   	  console.log(data);
-  	  window.location.href = '?callobjectC&pushViewController&overview.html';
+  	  window.location.href = '/app/page/overview.html';
   	}
   });
   
